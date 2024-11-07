@@ -8,7 +8,7 @@ import {
 	Bars3Icon,
 	XMarkIcon,
 } from '@heroicons/react/24/outline'
-import GameModal from "./Modals/GameModal.tsx";
+import GameModal from "../Modals/GameModal.tsx";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 
 export default function Header() {

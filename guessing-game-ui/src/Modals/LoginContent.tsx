@@ -1,18 +1,23 @@
 ﻿import {UserIcon} from "@heroicons/react/24/outline";
 import {DialogTitle} from "@headlessui/react";
 import {TextField} from "@mui/material";
-import {useGoogleLogin} from "@react-oauth/google";
 import {useState} from "react";
+import {TokenResponse, useGoogleLogin} from "@react-oauth/google";
+import {getName} from "../Services/auth.ts";
 
 export default function LoginContent() {
 	const [playerName, setPlayerName] = useState('');
-	const login = useGoogleLogin({
-		onSuccess: tokenResponse => console.log(tokenResponse),
-	});
+	const [isTouched, setIsTouched] = useState(false);
+
+	const handleGoogleLogin = useGoogleLogin({
+			onSuccess: async (tokenResponse: TokenResponse) => {
+				const name = await getName(tokenResponse);
+				setPlayerName(name);
+			},
+		});
 
 	const handleStartGame = async () => {
 		if (!playerName) {
-			console.error('Player name is required');
 			return;
 		}
 		
@@ -58,16 +63,21 @@ export default function LoginContent() {
 
 			<TextField
 				id="outlined-basic"
-				label="Outlined"
+				label="Name"
 				variant="outlined"
 				value={playerName}
-				onChange={(e) => setPlayerName(e.target.value)}
+				onChange={(e) => {
+					setPlayerName(e.target.value);
+					setIsTouched(true);
+				}}
+				error={isTouched && !playerName}
+				helperText={isTouched && !playerName ? "Name is required" : ""}
 			/>
 
 			<div className="sm:flex sm:flex-row-reverse sm:px-6">
 				<button
 					className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
-					onClick={() => login()}>Sign in with Google
+					onClick={handleGoogleLogin}>Sign in with Google
 				</button>
 				<button
 					className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"

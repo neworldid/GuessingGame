@@ -1,6 +1,3 @@
 ﻿namespace GuessingGame.Application.Contracts;
 
-public interface IGameSessionRepository
-{
-	
-}
+public record AttemptRequest(int Number);

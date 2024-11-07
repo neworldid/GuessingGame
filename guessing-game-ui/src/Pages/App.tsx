@@ -1,6 +1,5 @@
-import './App.css'
 import {Routes, Route} from 'react-router-dom';
-import Header from "./Header.tsx";
+import Header from "../Components/Header.tsx";
 import Home from "./Home.tsx";
 import Leaderboard from "./Leaderboard.tsx";
 

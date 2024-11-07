@@ -1,11 +1,12 @@
 using GuessingGame.Application.Contracts;
+using GuessingGame.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GuessingGame.Application.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class GameController : ControllerBase
+public class GameController(IGameSessionService gameSessionService, IGameAttemptService gameAttemptService) : ControllerBase
 {
 	[HttpPost("StartGame")]
 	public async Task<IActionResult> StartGame([FromBody] PlayerRequest request)
@@ -15,25 +16,16 @@ public class GameController : ControllerBase
 			return BadRequest("Player name is required.");
 		}
 
-		/*var secretNumber = new Random().Next(1, 10000);
-		var gameSession = new GameSession
-		{
-			PlayerName = playerName,
-			SecretNumber = secretNumber,
-			StartTime = DateTime.UtcNow
-		};
+		await gameSessionService.StartNewGame(request.Name);
 
-		context.GameSessions.Add(gameSession);
-		await context.SaveChangesAsync();
-
-		logger.LogInformation("Game started for {PlayerName} with secret number {SecretNumber}", playerName, secretNumber);*/
-
-		return Ok(new { GameSessionId = 1, Message = "Game started!" });
+		return Ok(new { Message = "Game started!" });
 	}
 	
 	[HttpPost(Name = "ProcessAttempt")]
-	public IActionResult ProcessAttempt()
+	public async Task<IActionResult> ProcessAttempt(int gameId, int attemptNumber)
 	{
-		return Ok();
+		var result = await gameAttemptService.ProcessAttemptAsync(gameId, attemptNumber);
+
+		return Ok(result);
 	}
 }

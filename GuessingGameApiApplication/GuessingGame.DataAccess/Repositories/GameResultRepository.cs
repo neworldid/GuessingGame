@@ -1,4 +1,5 @@
 ﻿using GuessingGame.Application.Contracts;
+using GuessingGame.Application.Interfaces;
 
 namespace GuessingGame.DataAccess.Repositories;
 

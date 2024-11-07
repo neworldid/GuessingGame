@@ -1,5 +1,5 @@
 ﻿import {useState} from "react";
-import GameModal from "./Modals/GameModal.tsx";
+import GameModal from "../Modals/GameModal.tsx";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 
 function Home() {

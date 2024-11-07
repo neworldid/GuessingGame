@@ -1,6 +1,9 @@
-﻿namespace GuessingGame.DataAccess.Repositories;
+﻿using GuessingGame.Application.Contracts;
+using GuessingGame.Application.Interfaces;
 
-public class GameAttemptRepository
+namespace GuessingGame.DataAccess.Repositories;
+
+public class GameAttemptRepository : IGameAttemptRepository
 {
 	
 }
