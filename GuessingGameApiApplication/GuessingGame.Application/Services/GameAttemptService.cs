@@ -1,4 +1,4 @@
-﻿using GuessingGame.Application.Interfaces;
+﻿using GuessingGame.Domain.Abstractions;
 
 namespace GuessingGame.Application.Services;
 

@@ -1,6 +1,5 @@
 ﻿import {useState} from "react";
 import GameModal from "../Modals/GameModal.tsx";
-import {GoogleOAuthProvider} from "@react-oauth/google";
 
 function Home() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,9 +12,7 @@ function Home() {
 				onClick={() => setIsModalOpen(true)}>
 				Start Game
 			</button>
-			<GoogleOAuthProvider clientId="469941126187-528ii435blnoul134c05p7ai0ub2kt9o.apps.googleusercontent.com">
-				<GameModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
-			</GoogleOAuthProvider>
+			<GameModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
 		</>
 	)
 }

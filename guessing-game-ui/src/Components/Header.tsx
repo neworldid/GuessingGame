@@ -9,7 +9,6 @@ import {
 	XMarkIcon,
 } from '@heroicons/react/24/outline'
 import GameModal from "../Modals/GameModal.tsx";
-import {GoogleOAuthProvider} from "@react-oauth/google";
 
 export default function Header() {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -17,14 +16,12 @@ export default function Header() {
 
 	return (
 		<header className="bg-white">
-			<GoogleOAuthProvider clientId="469941126187-528ii435blnoul134c05p7ai0ub2kt9o.apps.googleusercontent.com">
-				<GameModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
-			</GoogleOAuthProvider>
+			<GameModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
 			<nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
 				<div className="flex lg:flex-1">
 					<a href="/home" className="-m-1.5 p-1.5">
 						<span className="sr-only">Your Company</span>
-						<img alt="" src="" className="h-8 w-auto"/>
+						<img alt="" src="/guessinggame.png" className="h-8 w-auto"/>
 					</a>
 				</div>
 				<div className="flex lg:hidden">

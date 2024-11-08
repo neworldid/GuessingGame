@@ -1,12 +1,14 @@
 ﻿export interface GameRequest {
-	player: string;
+	PlayerName: string;
 }
 export interface AttemptRequest {
 	number: number;
 }
 
+const baseUrl = import.meta.env.VITE_REACT_APP_API_BASE_URL;
+
 export const startGame = async (gameRequest: GameRequest)=> {
-	await fetch('https://localhost:44330/Game/StartGame/', {
+	await fetch(`${baseUrl}/Game/StartGame/`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

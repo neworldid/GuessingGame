@@ -1,5 +1,5 @@
 using GuessingGame.Application.Contracts;
-using GuessingGame.Application.Interfaces;
+using GuessingGame.Domain.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GuessingGame.Application.Controllers;
@@ -11,12 +11,12 @@ public class GameController(IGameSessionService gameSessionService, IGameAttempt
 	[HttpPost("StartGame")]
 	public async Task<IActionResult> StartGame([FromBody] PlayerRequest request)
 	{
-		if (string.IsNullOrEmpty(request.Name))
+		if (string.IsNullOrEmpty(request.PlayerName))
 		{
 			return BadRequest("Player name is required.");
 		}
 
-		await gameSessionService.StartNewGame(request.Name);
+		await gameSessionService.StartNewGame(request.PlayerName);
 
 		return Ok(new { Message = "Game started!" });
 	}

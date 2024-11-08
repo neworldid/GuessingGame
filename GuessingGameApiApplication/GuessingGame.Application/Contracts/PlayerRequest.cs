@@ -1,3 +1,3 @@
 ﻿namespace GuessingGame.Application.Contracts;
 
-public record PlayerRequest(string Name);
+public record PlayerRequest(string PlayerName);

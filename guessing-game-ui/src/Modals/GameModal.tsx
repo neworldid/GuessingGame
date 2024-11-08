@@ -3,6 +3,9 @@ import Modal from './Modal'
 import GameContent from "./GameContent.tsx";
 import LoginContent from "./LoginContent.tsx";
 import {useState} from "react";
+import {GoogleOAuthProvider} from "@react-oauth/google";
+
+const googleclientid = import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID;
 
 interface SpecificModalProps {
 	isOpen: boolean;
@@ -11,15 +14,18 @@ interface SpecificModalProps {
 
 export default function GameModal({ isOpen, onClose }: SpecificModalProps) {
 	const [currentView, setCurrentView] = useState('login');
+
+	const handleClose = () => {
+		onClose();
+		setCurrentView('login');
+	};
 	
 	return (
-		<Modal isOpen={isOpen} onClose={onClose}>
-			<div className="mt-4">
-				<button onClick={() => setCurrentView('login')} className="text-blue-500 hover:underline">Login</button>
-				<button onClick={() => setCurrentView('game')} className="ml-4 text-blue-500 hover:underline">Game</button>
-			</div>
-			{currentView === 'login' && <LoginContent />}
-			{currentView === 'game' && <GameContent />}
-		</Modal>
+		<GoogleOAuthProvider clientId={googleclientid}>
+			<Modal isOpen={isOpen} onClose={handleClose}>
+				{currentView === 'login' && <LoginContent setCurrentView={setCurrentView} />}
+				{currentView === 'game' && <GameContent />}
+			</Modal>
+		</GoogleOAuthProvider>
 	)
 }

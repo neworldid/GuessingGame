@@ -1,6 +1,6 @@
 namespace GuessingGame.UnitTests;
 
-public class Tests
+public class GameControllerTests
 {
 	[SetUp]
 	public void Setup()

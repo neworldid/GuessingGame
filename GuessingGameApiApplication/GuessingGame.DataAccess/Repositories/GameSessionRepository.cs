@@ -1,6 +1,5 @@
-﻿using GuessingGame.Application.Contracts;
-using GuessingGame.Application.Interfaces;
-using GuessingGame.DataAccess.Entities;
+﻿using GuessingGame.DataAccess.Entities;
+using GuessingGame.Domain.Abstractions;
 
 namespace GuessingGame.DataAccess.Repositories;
 

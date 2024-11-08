@@ -1,4 +1,4 @@
-﻿namespace GuessingGame.Application.Interfaces;
+﻿namespace GuessingGame.Domain.Abstractions;
 
 public interface IGameSessionRepository
 {

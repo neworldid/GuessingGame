@@ -4,8 +4,13 @@ import {TextField} from "@mui/material";
 import {useState} from "react";
 import {TokenResponse, useGoogleLogin} from "@react-oauth/google";
 import {getName} from "../Services/auth.ts";
+import {startGame} from "../Services/game.ts";
 
-export default function LoginContent() {
+interface LoginContentProps {
+	setCurrentView: (view: string) => void;
+}
+
+export default function LoginContent({ setCurrentView }: LoginContentProps) {
 	const [playerName, setPlayerName] = useState('');
 	const [isTouched, setIsTouched] = useState(false);
 
@@ -22,20 +27,14 @@ export default function LoginContent() {
 		}
 		
 		try {
-			debugger;
-			const response = await fetch('https://localhost:44330/Game/StartGame/', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ playerName }),
-			});
-			if (!response.ok) {
+			const response = await startGame({ PlayerName: playerName });
+			setCurrentView('game');
+			/*if (!response.ok) {
 				const errorText = await response.text();
 				throw new Error(`Network response was not ok: ${errorText}`);
 			}
 			const data = await response.json();
-			console.log("Submitted player name:", playerName, "Response:", data);
+			console.log("Submitted player name:", playerName, "Response:", data);*/
 		} catch (error) {
 			console.error('There was a problem with the fetch operation:', error);
 		}
