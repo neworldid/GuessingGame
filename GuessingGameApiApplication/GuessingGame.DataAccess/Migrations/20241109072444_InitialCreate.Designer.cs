@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GuessingGame.DataAccess.Migrations
 {
     [DbContext(typeof(GuessingGameDbContext))]
-    [Migration("20241108103421_InitialCreate")]
+    [Migration("20241109072444_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -33,23 +33,30 @@ namespace GuessingGame.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AttemptDigitsMatchInNumber")
+                        .HasColumnType("int");
+
                     b.Property<int>("AttemptNumber")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("AttemptTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("GameSessionId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("GameSessionId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("GuessedNumber")
+                    b.Property<string>("GuessedNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PositionMatch")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GameSessionId");
 
-                    b.ToTable("GameAttempt");
+                    b.ToTable("GameAttempts");
                 });
 
             modelBuilder.Entity("GuessingGame.DataAccess.Entities.GameResult", b =>
@@ -60,8 +67,8 @@ namespace GuessingGame.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("GameSessionId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("GameSessionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Result")
                         .IsRequired()
@@ -80,11 +87,9 @@ namespace GuessingGame.DataAccess.Migrations
 
             modelBuilder.Entity("GuessingGame.DataAccess.Entities.GameSession", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime2");
@@ -96,8 +101,9 @@ namespace GuessingGame.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SecretNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("SecretNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");

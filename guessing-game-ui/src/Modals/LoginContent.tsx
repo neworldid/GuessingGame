@@ -4,41 +4,23 @@ import {TextField} from "@mui/material";
 import {useState} from "react";
 import {TokenResponse, useGoogleLogin} from "@react-oauth/google";
 import {getName} from "../Services/auth.ts";
-import {startGame} from "../Services/game.ts";
+import {handleStartGame} from "../Handlers/StartGameHandler.ts";
 
 interface LoginContentProps {
 	setCurrentView: (view: string) => void;
+	setSessionId: (sessionId: string) => void;
 }
 
-export default function LoginContent({ setCurrentView }: LoginContentProps) {
+export default function LoginContent({ setCurrentView, setSessionId }: LoginContentProps) {
 	const [playerName, setPlayerName] = useState('');
 	const [isTouched, setIsTouched] = useState(false);
 
 	const handleGoogleLogin = useGoogleLogin({
-			onSuccess: async (tokenResponse: TokenResponse) => {
-				const name = await getName(tokenResponse);
-				setPlayerName(name);
-			},
-		});
-
-	const handleStartGame = async () => {
-		if (!playerName) {
-			return;
-		}
-		
-		try {
-			const response = await startGame({ PlayerName: playerName });
-			setCurrentView('game');
-			/*if (!response.ok) {
-				const errorText = await response.text();
-				throw new Error(`Network response was not ok: ${errorText}`);
-			}
-			const data = await response.json();
-			console.log("Submitted player name:", playerName, "Response:", data);*/
-		} catch (error) {
-			console.error('There was a problem with the fetch operation:', error);
-		}
-	};
+		onSuccess: async (tokenResponse: TokenResponse) => {
+			const name = await getName(tokenResponse);
+			setPlayerName(name);
+		},
+	});
 
 	return (
 		<>
@@ -61,7 +43,7 @@ export default function LoginContent({ setCurrentView }: LoginContentProps) {
 		</div>
 
 			<TextField
-				id="outlined-basic"
+				id="guess-number"
 				label="Name"
 				variant="outlined"
 				value={playerName}
@@ -80,7 +62,7 @@ export default function LoginContent({ setCurrentView }: LoginContentProps) {
 				</button>
 				<button
 					className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
-					onClick={handleStartGame}>Start Game
+					onClick={() => handleStartGame({ playerName, setIsTouched, setCurrentView, setSessionId })}>Start Game
 				</button>
 			</div>
 		</>

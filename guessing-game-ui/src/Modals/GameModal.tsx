@@ -14,17 +14,19 @@ interface SpecificModalProps {
 
 export default function GameModal({ isOpen, onClose }: SpecificModalProps) {
 	const [currentView, setCurrentView] = useState('login');
+	const [sessionId, setSessionId] = useState<string>('');
 
 	const handleClose = () => {
 		onClose();
 		setCurrentView('login');
+		setSessionId('');
 	};
 	
 	return (
 		<GoogleOAuthProvider clientId={googleclientid}>
 			<Modal isOpen={isOpen} onClose={handleClose}>
-				{currentView === 'login' && <LoginContent setCurrentView={setCurrentView} />}
-				{currentView === 'game' && <GameContent />}
+				{currentView === 'login' && <LoginContent setCurrentView={setCurrentView} setSessionId={setSessionId}/>}
+				{currentView === 'game' && sessionId && <GameContent sessionId={sessionId} />}
 			</Modal>
 		</GoogleOAuthProvider>
 	)

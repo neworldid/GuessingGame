@@ -3,7 +3,7 @@
 public class GameResult
 {
 	public int Id { get; set; }
-	public int GameSessionId { get; set; }
+	public Guid GameSessionId { get; set; }
 	public string Result { get; set; }
 	public DateTime Timestamp { get; set; }
 

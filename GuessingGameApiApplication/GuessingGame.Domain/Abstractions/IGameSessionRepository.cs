@@ -1,6 +1,10 @@
-﻿namespace GuessingGame.Domain.Abstractions;
+﻿using GuessingGame.Domain.Models;
+
+namespace GuessingGame.Domain.Abstractions;
 
 public interface IGameSessionRepository
 {
-	Task<int> AddGameSession(string playerName, int secretNumber);
+	Task<Guid?> AddGameSession(string playerName, string secretNumber);
+	
+	Task<GameSessionModel> GetGameDetails(Guid sessionId);
 }

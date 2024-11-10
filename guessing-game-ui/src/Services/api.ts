@@ -2,13 +2,14 @@
 	PlayerName: string;
 }
 export interface AttemptRequest {
-	number: number;
+	Number: string;
+	SessionId: string;
 }
 
 const baseUrl = import.meta.env.VITE_REACT_APP_API_BASE_URL;
 
 export const startGame = async (gameRequest: GameRequest)=> {
-	await fetch(`${baseUrl}/Game/StartGame/`, {
+	return await fetch(`${baseUrl}/Game/StartGame/`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -18,7 +19,7 @@ export const startGame = async (gameRequest: GameRequest)=> {
 }
 
 export const processAttempt = async (attemptRequest: AttemptRequest)=> {
-	return await fetch('https://localhost:44330/Game/ProcessAttempt/', {
+	return await fetch(`${baseUrl}/Game/ProcessAttempt/`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

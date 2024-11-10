@@ -1,3 +1,3 @@
 ﻿namespace GuessingGame.Application.Contracts;
 
-public record AttemptRequest(int Number);
+public record AttemptRequest(string Number, Guid SessionId);

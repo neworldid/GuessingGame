@@ -1,14 +1,13 @@
-﻿namespace GuessingGame.DataAccess.Entities;
+﻿namespace GuessingGame.Domain.Models;
 
-public class GameAttempt
+public class GameAttemptModel
 {
 	public int Id { get; set; }
 	public Guid GameSessionId { get; set; }
-	public int AttemptNumber { get; set; }
+	
+	// The number that the user guessed
 	public string GuessedNumber { get; set; }
+	public int AttemptNumber { get; set; }
 	public int PositionMatch { get; set; }
 	public int AttemptDigitsMatchInNumber { get; set; }
-	public DateTime AttemptTime { get; set; }
-
-	public GameSession GameSession { get; set; }
 }

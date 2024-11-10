@@ -1,3 +1,4 @@
+using GuessingGame.Application.Interfaces;
 using GuessingGame.Application.Services;
 using GuessingGame.DataAccess;
 using GuessingGame.DataAccess.Repositories;

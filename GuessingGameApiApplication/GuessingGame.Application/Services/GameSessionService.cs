@@ -1,13 +1,26 @@
-﻿using GuessingGame.Domain.Abstractions;
+﻿using GuessingGame.Application.Interfaces;
+using GuessingGame.Domain.Abstractions;
 
 namespace GuessingGame.Application.Services;
 
 public class GameSessionService(IGameSessionRepository sessionRepository) : IGameSessionService
 {
-	public async Task<int> StartNewGame(string playerName)
+	public async Task<Guid?> StartNewGame(string playerName)
 	{
-		var secretNumber = new Random().Next(1, 10000);
-		await sessionRepository.AddGameSession(playerName, secretNumber);
-		return secretNumber;
+		var secretNumber = GenerateUniqueFourDigitNumber();
+		return await sessionRepository.AddGameSession(playerName, secretNumber);
+	}
+	
+	private static string GenerateUniqueFourDigitNumber()
+	{
+		var random = new Random();
+		var digits = new HashSet<int>();
+
+		while (digits.Count < 4)
+		{
+			digits.Add(random.Next(0, 10));
+		}
+
+		return string.Join("", digits);
 	}
 }

@@ -15,10 +15,9 @@ namespace GuessingGame.DataAccess.Migrations
                 name: "GameSessions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PlayerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SecretNumber = table.Column<int>(type: "int", nullable: false),
+                    SecretNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsCompleted = table.Column<bool>(type: "bit", nullable: false)
@@ -29,21 +28,23 @@ namespace GuessingGame.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GameAttempt",
+                name: "GameAttempts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GameSessionId = table.Column<int>(type: "int", nullable: false),
+                    GameSessionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AttemptNumber = table.Column<int>(type: "int", nullable: false),
-                    GuessedNumber = table.Column<int>(type: "int", nullable: false),
+                    GuessedNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PositionMatch = table.Column<int>(type: "int", nullable: false),
+                    AttemptDigitsMatchInNumber = table.Column<int>(type: "int", nullable: false),
                     AttemptTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GameAttempt", x => x.Id);
+                    table.PrimaryKey("PK_GameAttempts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GameAttempt_GameSessions_GameSessionId",
+                        name: "FK_GameAttempts_GameSessions_GameSessionId",
                         column: x => x.GameSessionId,
                         principalTable: "GameSessions",
                         principalColumn: "Id",
@@ -56,7 +57,7 @@ namespace GuessingGame.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GameSessionId = table.Column<int>(type: "int", nullable: false),
+                    GameSessionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Result = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -72,8 +73,8 @@ namespace GuessingGame.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameAttempt_GameSessionId",
-                table: "GameAttempt",
+                name: "IX_GameAttempts_GameSessionId",
+                table: "GameAttempts",
                 column: "GameSessionId");
 
             migrationBuilder.CreateIndex(
@@ -87,7 +88,7 @@ namespace GuessingGame.DataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "GameAttempt");
+                name: "GameAttempts");
 
             migrationBuilder.DropTable(
                 name: "GameResults");
