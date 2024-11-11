@@ -19,8 +19,7 @@ namespace GuessingGame.DataAccess.Migrations
                     PlayerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SecretNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsCompleted = table.Column<bool>(type: "bit", nullable: false)
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -58,7 +57,8 @@ namespace GuessingGame.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GameSessionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Result = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Won = table.Column<bool>(type: "bit", nullable: false),
+                    AttemptCount = table.Column<int>(type: "int", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

@@ -8,25 +8,17 @@ public class GameAttemptRepository(GuessingGameDbContext context) : IGameAttempt
 {
 	public async Task<int> AddAttempt(GameAttemptModel model)
 	{
-		try
+		var entity = new GameAttempt
 		{
-			var entity = new GameAttempt
-			{
-				GameSessionId = model.GameSessionId,
-				AttemptNumber = model.AttemptNumber,
-				GuessedNumber = model.GuessedNumber,
-				PositionMatch = model.PositionMatch,
-				AttemptDigitsMatchInNumber = model.AttemptDigitsMatchInNumber,
-				AttemptTime = DateTime.UtcNow
-			};
+			GameSessionId = model.GameSessionId,
+			AttemptNumber = model.AttemptNumber,
+			GuessedNumber = model.GuessedNumber,
+			PositionMatch = model.PositionMatch,
+			AttemptDigitsMatchInNumber = model.MatchInIncorrectPositions,
+			AttemptTime = DateTime.UtcNow
+		};
 		
-			context.GameAttempts.Add(entity);
-			return await context.SaveChangesAsync();
-		}
-		catch (Exception e)
-		{
-			Console.WriteLine(e);
-			return 0;
-		}
+		context.GameAttempts.Add(entity);
+		return await context.SaveChangesAsync();
 	}
 }

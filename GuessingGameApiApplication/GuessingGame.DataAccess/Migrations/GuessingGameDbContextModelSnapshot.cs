@@ -64,15 +64,17 @@ namespace GuessingGame.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AttemptCount")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("GameSessionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Result")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Won")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -90,9 +92,6 @@ namespace GuessingGame.DataAccess.Migrations
 
                     b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("PlayerName")
                         .IsRequired()

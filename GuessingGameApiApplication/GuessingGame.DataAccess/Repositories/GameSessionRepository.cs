@@ -1,5 +1,6 @@
 ﻿using GuessingGame.DataAccess.Entities;
 using GuessingGame.Domain.Abstractions;
+using GuessingGame.Domain.Constants;
 using GuessingGame.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,24 +10,16 @@ public class GameSessionRepository(GuessingGameDbContext context) : IGameSession
 {
 	public async Task<Guid?> AddGameSession(string playerName, string secretNumber)
 	{
-		try
+		var gameSession = new GameSession
 		{
-			var gameSession = new GameSession
-			{
-				PlayerName = playerName,
-				SecretNumber = secretNumber,
-				StartTime = DateTime.UtcNow
-			};
+			PlayerName = playerName,
+			SecretNumber = secretNumber,
+			StartTime = DateTime.UtcNow
+		};
 		
-			await context.GameSessions.AddAsync(gameSession);
-			await context.SaveChangesAsync();
-			return gameSession.Id;
-		}
-		catch (Exception e)
-		{
-			Console.WriteLine(e);
-			return null;
-		}
+		await context.GameSessions.AddAsync(gameSession);
+		await context.SaveChangesAsync();
+		return gameSession.Id;
 	}
 	
 	public async Task<GameSessionModel> GetGameDetails(Guid sessionId)
@@ -37,8 +30,21 @@ public class GameSessionRepository(GuessingGameDbContext context) : IGameSession
 
 		return new GameSessionModel
 		{
+			StartTime = gameSession.StartTime,
+			EndTime = gameSession.EndTime,
 			SecretNumber = gameSession.SecretNumber,
-			AttemptCount = gameSession.GameAttempts.Count
+			AttemptCount = gameSession.GameAttempts.Count,
+			Won = gameSession.GameAttempts.Any(a => a.PositionMatch == GameConstants.SecretNumberLength)
 		};
+	}
+	
+	public async Task EndGame(Guid sessionId)
+	{
+		var gameSession = await context.GameSessions.FirstOrDefaultAsync(s => s.Id == sessionId);
+
+		if (gameSession != null) 
+			gameSession.EndTime = DateTime.UtcNow;
+		
+		await context.SaveChangesAsync();
 	}
 }

@@ -4,5 +4,5 @@ namespace GuessingGame.Application.Interfaces;
 
 public interface IGameAttemptService
 {
-	Task<AttemptResponse> ProcessAttemptAsync(AttemptRequest request);
+	Task<AttemptResponse?> ProcessAttemptAsync(AttemptRequest request);
 }

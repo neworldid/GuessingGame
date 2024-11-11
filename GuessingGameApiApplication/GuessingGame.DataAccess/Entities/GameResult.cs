@@ -4,7 +4,8 @@ public class GameResult
 {
 	public int Id { get; set; }
 	public Guid GameSessionId { get; set; }
-	public string Result { get; set; }
+	public bool Won { get; set; }
+	public int AttemptCount { get; set; }
 	public DateTime Timestamp { get; set; }
 
 	// Navigation property for the related GameSession

@@ -1,3 +1,10 @@
-﻿namespace GuessingGame.Application.Contracts;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record PlayerRequest(string PlayerName);
+namespace GuessingGame.Application.Contracts;
+
+public record PlayerRequest
+{
+	[Required]
+	[MinLength(2)]
+	public string PlayerName { get; init; } = string.Empty;
+}

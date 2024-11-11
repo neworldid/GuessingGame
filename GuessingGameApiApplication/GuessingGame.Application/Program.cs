@@ -19,6 +19,7 @@ builder.Services.AddDbContext<GuessingGameDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 services.AddScoped<IGameSessionService, GameSessionService>();
 services.AddScoped<IGameAttemptService, GameAttemptService>();
+services.AddScoped<IGameResultService, GameResultService>();
 services.AddScoped<IGameResultRepository, GameResultRepository>();
 services.AddScoped<IGameAttemptRepository, GameAttemptRepository>();
 services.AddScoped<IGameSessionRepository, GameSessionRepository>();
