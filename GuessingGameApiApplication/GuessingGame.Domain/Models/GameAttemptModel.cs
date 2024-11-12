@@ -7,7 +7,6 @@ public class GameAttemptModel(
 	int matchInIncorrectPositions,
 	int attemptNumber)
 {
-	public int Id { get; set; }
 	public Guid GameSessionId { get; } = gameSessionId;
 
 	// The number that the user guessed

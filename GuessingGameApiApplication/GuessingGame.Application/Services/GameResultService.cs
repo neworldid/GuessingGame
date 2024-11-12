@@ -14,10 +14,11 @@ public class GameResultService(IGameResultRepository gameResultRepository) : IGa
 		
 			return result.Select(r => new GameResultResponse
 			{
-				Id = r.Id,
+				Id = r.GameResultId,
 				PlayerName = r.PlayerName,
 				SecretNumber = r.SecretNumber,
 				AttemptCount = r.AttemptCount,
+				Duration = (r.EndTime - r.StartTime)?.ToString(@"mm\:ss"),
 				Won = r.Won
 			});
 		}

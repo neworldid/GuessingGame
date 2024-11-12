@@ -9,7 +9,7 @@ public record GameResultResponse
 	
 	public int AttemptCount { get; set; }
 	
-	public TimeSpan Duration { get; set; }
+	public string? Duration { get; set; }
 	
 	public bool Won { get; set; }
 }

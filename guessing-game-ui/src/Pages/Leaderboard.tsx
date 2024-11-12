@@ -44,6 +44,7 @@ function Leaderboard() {
 						<th className="px-4 py-2 border-b">Player Name</th>
 						<th className="px-4 py-2 border-b">Secret Number</th>
 						<th className="px-4 py-2 border-b">Attempt Count</th>
+						<th className="px-4 py-2 border-b">Duration</th>
 						<th className="px-4 py-2 border-b">Result</th>
 						<th className="px-4 py-2 border-b">Actions</th>
 					</tr>
@@ -54,10 +55,12 @@ function Leaderboard() {
 							<td className="px-4 py-2 border-b">{result.playerName}</td>
 							<td className="px-4 py-2 border-b">{result.secretNumber}</td>
 							<td className="px-4 py-2 border-b">{result.attemptCount}</td>
+							<td className="px-4 py-2 border-b">{result.duration}</td>
 							<td className="px-4 py-2 border-b">{result.won ? 'Success' : 'Fail'}</td>
 							<td className="px-4 py-2 border-b text-center">
-								<button onClick={() => handleDelete(index, result.id)} className="text-red-500 hover:text-red-700">
-									<FaTrash />
+								<button onClick={() => handleDelete(index, result.id)}
+										className="text-red-500 hover:text-red-700">
+									<FaTrash/>
 								</button>
 							</td>
 						</tr>

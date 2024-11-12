@@ -21,16 +21,18 @@ public class GameResultRepository(GuessingGameDbContext context) : IGameResultRe
 		await context.SaveChangesAsync();
 	}
 
-	public async Task<IEnumerable<GameResultModel>> GetGameResults()
+	public async Task<IEnumerable<GameDetailsModel>> GetGameResults()
 	{
 		var results = await context.GameResults
 			.AsNoTracking()
-			.Select(r => new GameResultModel
+			.Select(r => new GameDetailsModel
 			{
-				Id = r.Id,
+				GameResultId = r.Id,
 				PlayerName = r.GameSession.PlayerName,
 				SecretNumber = r.GameSession.SecretNumber,
 				AttemptCount = r.AttemptCount,
+				StartTime = r.GameSession.StartTime,
+				EndTime = r.GameSession.EndTime,
 				Won = r.Won,
 			})
 			.ToListAsync();

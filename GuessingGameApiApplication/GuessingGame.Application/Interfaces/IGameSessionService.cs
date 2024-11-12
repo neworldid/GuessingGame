@@ -6,5 +6,5 @@ public interface IGameSessionService
 {
 	Task<Guid?> StartNewGame(string playerName);
 
-	Task<GameDetailsResponse?> GetGameDetails(Guid sessionId);
+	Task<GameResultResponse?> GetGameDetails(Guid sessionId);
 }

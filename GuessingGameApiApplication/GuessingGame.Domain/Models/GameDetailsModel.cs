@@ -1,10 +1,13 @@
 ﻿namespace GuessingGame.Domain.Models;
 
-public class GameSessionModel
+public class GameDetailsModel
 {
+	public int GameResultId { get; set; }
+	public string PlayerName { get; set; }
+	
 	public string SecretNumber { get; set; }
-
-	public int AttemptCount;
+	
+	public int AttemptCount { get; set; }
 	
 	public DateTime StartTime { get; set; }
 	

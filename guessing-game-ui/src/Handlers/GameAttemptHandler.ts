@@ -7,12 +7,12 @@ interface GameAttemptProps {
 	setNumber: (previousGuess: string) => void;
 	setErrorMessage: (errorMessage: string) => void;
 	setPreviousGuess: (previousGuess: string | null) => void;
-	setAttemptNumber: (attemptNumber: number | null) => void;
+	setTriesLeft: (attemptNumber: number | null) => void;
 	setMatches: (matches: number | null) => void;
 	setPositionMatches: (positionMatches: number | null) => void;
 }
 
-export const handleAttempt = async ({ number, sessionId, setCurrentView, setNumber, setErrorMessage, setPreviousGuess, setAttemptNumber, setMatches, setPositionMatches }: GameAttemptProps) => {
+export const handleAttempt = async ({ number, sessionId, setCurrentView, setNumber, setErrorMessage, setPreviousGuess, setTriesLeft, setMatches, setPositionMatches }: GameAttemptProps) => {
 	try {
 		if (!number || number.length !== 4) {
 			setErrorMessage("Please provide a 4 digit number");
@@ -40,7 +40,7 @@ export const handleAttempt = async ({ number, sessionId, setCurrentView, setNumb
 		setPreviousGuess(number);
 		setMatches(data.matchInIncorrectPositions);
 		setPositionMatches(data.positionMatch);
-		setAttemptNumber(data.attemptNumber);
+		setTriesLeft(data.triesLeft);
 
 	} catch (error) {
 		console.error('There was a problem with the fetch operation:', error);

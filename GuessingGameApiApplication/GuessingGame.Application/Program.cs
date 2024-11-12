@@ -1,4 +1,5 @@
 using GuessingGame.Application.Interfaces;
+using GuessingGame.Application.Processors;
 using GuessingGame.Application.Services;
 using GuessingGame.DataAccess;
 using GuessingGame.DataAccess.Repositories;
@@ -23,6 +24,7 @@ services.AddScoped<IGameResultService, GameResultService>();
 services.AddScoped<IGameResultRepository, GameResultRepository>();
 services.AddScoped<IGameAttemptRepository, GameAttemptRepository>();
 services.AddScoped<IGameSessionRepository, GameSessionRepository>();
+services.AddScoped<IGameLogicProcessor, GameLogicProcessor>();
 
 // Configure CORS
 services.AddCors(options =>

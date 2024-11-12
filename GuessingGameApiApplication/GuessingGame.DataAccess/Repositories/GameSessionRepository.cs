@@ -22,14 +22,16 @@ public class GameSessionRepository(GuessingGameDbContext context) : IGameSession
 		return gameSession.Id;
 	}
 	
-	public async Task<GameSessionModel> GetGameDetails(Guid sessionId)
+	public async Task<GameDetailsModel> GetGameDetails(Guid sessionId)
 	{
 		var gameSession = await context.GameSessions
-			.AsNoTracking().Include(gameSession => gameSession.GameAttempts)
+			.AsNoTracking()
+			.Include(gameSession => gameSession.GameAttempts)
 			.FirstOrDefaultAsync(s => s.Id == sessionId);
 
-		return new GameSessionModel
+		return new GameDetailsModel
 		{
+			PlayerName = gameSession.PlayerName,
 			StartTime = gameSession.StartTime,
 			EndTime = gameSession.EndTime,
 			SecretNumber = gameSession.SecretNumber,

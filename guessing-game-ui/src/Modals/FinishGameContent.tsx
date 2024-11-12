@@ -25,7 +25,9 @@ export default function FinishGameContent({ sessionId } : FinishGameContentProps
 		<div>
 			<div className="text-center sm:ml-4 sm:mt-0 sm:text-left pr-8">
 				<DialogTitle as="h3" className="mt-4 text-base font-semibold leading-6 text-gray-900 min-h-10">
-					Session Details
+					{sessionDetails ? (sessionDetails.won ?
+						`Congratulations, ${sessionDetails.playerName}! You win!` :
+						`Unfortunately, ${sessionDetails.playerName}, You lose`) : ''}
 				</DialogTitle>
 
 				{sessionDetails ? (
@@ -33,7 +35,6 @@ export default function FinishGameContent({ sessionId } : FinishGameContentProps
 						<p>Secret Number: {sessionDetails.secretNumber}</p>
 						<p>Attempt Count: {sessionDetails.attemptCount}</p>
 						<p>Duration: {sessionDetails.duration}</p>
-						<p>Result: {sessionDetails.won ? 'Success' : 'Fail'}</p>
 						
 					</div>
 				) : (

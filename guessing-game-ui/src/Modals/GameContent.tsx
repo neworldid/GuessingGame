@@ -11,7 +11,7 @@ export default function GameContent({ setCurrentView, sessionId }: GameContentPr
 	const [number, setNumber] = useState("");
 	const [errorMessage, setErrorMessage] = useState('');
 	const [previousGuess, setPreviousGuess] = useState<string | null>(null);
-	const [attemptNumber, setAttemptNumber] = useState<number | null>(null);
+	const [triesLeft, setTriesLeft] = useState<number | null>(null);
 	const [matches, setMatches] = useState<number | null>(null);
 	const [positionMatches, setPositionMatches] = useState<number | null>(null);
 	const [loading, setLoading] = useState(false);
@@ -25,7 +25,7 @@ export default function GameContent({ setCurrentView, sessionId }: GameContentPr
 			setNumber,
 			setErrorMessage,
 			setPreviousGuess,
-			setAttemptNumber,
+			setTriesLeft,
 			setMatches,
 			setPositionMatches
 		});
@@ -39,7 +39,7 @@ export default function GameContent({ setCurrentView, sessionId }: GameContentPr
 					{previousGuess !== null && (
 						<div>
 							<div>Previous Guess Number: {previousGuess}</div>
-							<div>Current Attempt Number: {attemptNumber}</div>
+							<div>Tries Left: {triesLeft}</div>
 							<div>Position Matches: {positionMatches}</div>
 							<div>Matches In Incorrect Positions: {matches}</div>
 						</div>
@@ -55,7 +55,7 @@ export default function GameContent({ setCurrentView, sessionId }: GameContentPr
 				<button onClick={attemptGuess}
 						className={`mt-4 p-2 text-white rounded ${loading ? 'bg-gray-400' : 'bg-green-600 hover:bg-green-500'}`}
 						disabled={loading}>
-					{loading ? 'Loading...' : 'Guess Number'}
+					{loading ? 'Loading...' : 'Make Guess'}
 				</button>
 			</div>
 		</div>
