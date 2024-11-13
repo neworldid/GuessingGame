@@ -7,7 +7,7 @@ git clone https://github.com/neworldid/GuessingGame.git
 Next, locate the .env file in the  /guessing-game-ui/  directory and enter your provided Google Client ID after:
 VITE_REACT_APP_GOOGLE_CLIENT_ID=  
 
-Then, navigate to the main application directory (GuessingGameApp) and run in terminal the following command:
+Then, navigate to the main application directory (GuessingGame) and run in terminal the following command:
 docker-compose up -d  
 
 Afterward, you'll need to apply database migrations. In the same directory, execute the following command:
