@@ -1,0 +1,32 @@
+﻿services:
+  game_frontend:
+      container_name: game_frontend
+      build:
+        context: .
+        dockerfile: guessing-game-ui/Dockerfile
+      ports:
+        - "8080:80"
+  
+  game_db:
+    container_name: game_db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "StrongPassword123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+
+  game_backend:
+    container_name: game_backend
+    build:
+      context: .
+      dockerfile: GuessingGameApiApplication/GuessingGame.Application/Dockerfile
+    depends_on:
+      - game_db
+    ports:
+      - "5000:8080"
+    
+volumes:
+  mssql-data:

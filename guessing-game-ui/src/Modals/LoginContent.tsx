@@ -1,5 +1,5 @@
 ﻿import {UserIcon} from "@heroicons/react/24/outline";
-import {useState} from "react";
+import React, {useState} from "react";
 import {TokenResponse, useGoogleLogin} from "@react-oauth/google";
 import {getName} from "../Services/auth.ts";
 import {handleStartGame} from "../Handlers/StartGameHandler.ts";
@@ -14,6 +14,10 @@ export default function LoginContent({ setCurrentView, setSessionId }: LoginCont
 	const [playerName, setPlayerName] = useState('');
 	const [errorMessage, setErrorMessage] = useState('');
 	const [loading, setLoading] = useState(false);
+
+	const handleGoogleLoginClick: React.MouseEventHandler<HTMLButtonElement> = () => {
+		handleGoogleLogin();
+	};
 
 	const handleGoogleLogin = useGoogleLogin({
 		onSuccess: async (tokenResponse: TokenResponse) => {
@@ -38,7 +42,7 @@ export default function LoginContent({ setCurrentView, setSessionId }: LoginCont
 					</div>
 					<button
 						className="inline-flex w-full justify-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 sm:ml-3 sm:w-auto"
-						onClick={handleGoogleLogin}>Sign in with Google
+						onClick={handleGoogleLoginClick}>Sign in with Google
 					</button>
 				</div>
 			</div>

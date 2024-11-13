@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GuessingGame.DataAccess.Migrations
 {
     [DbContext(typeof(GuessingGameDbContext))]
-    [Migration("20241111072840_InitialCreate")]
+    [Migration("20241112143745_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
