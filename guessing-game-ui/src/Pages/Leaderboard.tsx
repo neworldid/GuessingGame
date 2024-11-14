@@ -56,7 +56,7 @@ function Leaderboard() {
 							<td className="px-4 py-2 border-b">{result.secretNumber}</td>
 							<td className="px-4 py-2 border-b">{result.attemptCount}</td>
 							<td className="px-4 py-2 border-b">{result.duration}</td>
-							<td className="px-4 py-2 border-b">{result.won ? 'Success' : 'Fail'}</td>
+							<td className="px-4 py-2 border-b">{result.won ? 'Won' : 'Lose'}</td>
 							<td className="px-4 py-2 border-b text-center">
 								<button onClick={() => handleDelete(index, result.id)}
 										className="text-red-500 hover:text-red-700">
