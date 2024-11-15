@@ -1,6 +1,7 @@
-﻿using GuessingGame.Application.Contracts;
-using GuessingGame.Application.Interfaces;
-using GuessingGame.Domain.Abstractions;
+﻿using GuessingGame.Domain.Abstractions;
+using GuessingGame.Domain.Abstractions.Repositories;
+using GuessingGame.Domain.Abstractions.Services;
+using GuessingGame.Domain.Models;
 
 namespace GuessingGame.Application.Services;
 
@@ -13,7 +14,7 @@ public class GameSessionService(IGameSessionRepository sessionRepository, IGameL
 			var secretNumber = logicProcessor.GenerateUniqueFourDigitNumber();
 			return await sessionRepository.AddGameSession(playerName, secretNumber);
 		}
-		catch (Exception e)
+		catch
 		{
 			return null;
 		}
@@ -36,7 +37,7 @@ public class GameSessionService(IGameSessionRepository sessionRepository, IGameL
 				Won = game.Won
 			};
 		}
-		catch (Exception e)
+		catch
 		{
 			return null;
 		}

@@ -1,6 +1,6 @@
-﻿using Moq;
-using GuessingGame.Application.Processors;
-using GuessingGame.Domain.Abstractions;
+﻿using GuessingGame.Application.Processors;
+using Moq;
+using GuessingGame.Domain.Abstractions.Repositories;
 using GuessingGame.Domain.Constants;
 
 namespace GuessingGame.UnitTests

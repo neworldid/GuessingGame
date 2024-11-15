@@ -1,9 +1,10 @@
-using GuessingGame.Application.Contracts;
-using GuessingGame.Application.Controllers;
-using GuessingGame.Application.Interfaces;
+using GuessingGame.API.Contracts;
+using GuessingGame.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using GuessingGame.Domain.Abstractions;
+using GuessingGame.Domain.Abstractions.Repositories;
+using GuessingGame.Domain.Abstractions.Services;
+using GuessingGame.Domain.Models;
 
 namespace GuessingGame.UnitTests
 {
@@ -201,8 +202,7 @@ namespace GuessingGame.UnitTests
 
             // Assert
             _mockGameResultRepository.Verify(repo => repo.DeleteGameResult(resultId), Times.Once);
-            Assert.IsInstanceOf<OkResult>(result);
-        }
+            Assert.That(result, Is.InstanceOf<OkResult>());        }
 
         [Test]
         public async Task DeleteResult_ReturnsNotFound_WhenExceptionThrown()
@@ -217,7 +217,7 @@ namespace GuessingGame.UnitTests
 
             // Assert
             _mockGameResultRepository.Verify(repo => repo.DeleteGameResult(resultId), Times.Once);
-            Assert.IsInstanceOf<NotFoundResult>(result);
+            Assert.That(result, Is.InstanceOf<NotFoundResult>());
         }
         
         [Test]
@@ -232,7 +232,7 @@ namespace GuessingGame.UnitTests
 
 	        // Assert
 	        _mockGameResultRepository.Verify(repo => repo.DeleteGameResult(1), Times.Once);
-	        Assert.IsInstanceOf<NotFoundResult>(result);
+	        Assert.That(result, Is.InstanceOf<NotFoundResult>());
         }
     }
 }

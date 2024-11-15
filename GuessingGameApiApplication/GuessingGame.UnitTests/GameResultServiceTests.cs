@@ -1,6 +1,6 @@
 ﻿using Moq;
 using GuessingGame.Application.Services;
-using GuessingGame.Domain.Abstractions;
+using GuessingGame.Domain.Abstractions.Repositories;
 using GuessingGame.Domain.Models;
 
 namespace GuessingGame.UnitTests
@@ -40,7 +40,7 @@ namespace GuessingGame.UnitTests
             var result = await _gameResultService.GetGameResults();
 
             // Assert
-            Assert.NotNull(result);
+            Assert.That(result, Is.Not.Null);
             var firstResult = result.First();
             Assert.That(firstResult.Id, Is.EqualTo(1));
             Assert.That(firstResult.PlayerName, Is.EqualTo("Player1"));
@@ -61,7 +61,7 @@ namespace GuessingGame.UnitTests
 
             // Assert
             _mockGameResultRepository.Verify(repo => repo.GetGameResults(), Times.Once);
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
     }
 }

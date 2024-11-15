@@ -1,7 +1,7 @@
-﻿using Moq;
-using GuessingGame.Application.Interfaces;
+﻿using GuessingGame.Application.Services;
+using Moq;
 using GuessingGame.Domain.Abstractions;
-using GuessingGame.Application.Services;
+using GuessingGame.Domain.Abstractions.Repositories;
 using GuessingGame.Domain.Models;
 
 namespace GuessingGame.UnitTests
@@ -36,7 +36,7 @@ namespace GuessingGame.UnitTests
             // Assert
             _mockLogicProcessor.Verify(proc => proc.GenerateUniqueFourDigitNumber(), Times.Once);
             _mockSessionRepository.Verify(repo => repo.AddGameSession("Player1", "1234"), Times.Once);
-            Assert.NotNull(result);
+            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(guid));
         }
 
@@ -51,7 +51,7 @@ namespace GuessingGame.UnitTests
 
             // Assert
             _mockLogicProcessor.Verify(proc => proc.GenerateUniqueFourDigitNumber(), Times.Once);
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace GuessingGame.UnitTests
 
             // Assert
             _mockSessionRepository.Verify(repo => repo.GetGameDetails(guid), Times.Once);
-            Assert.NotNull(result);
+            Assert.That(result, Is.Not.Null);
             Assert.That(result.PlayerName, Is.EqualTo("Player1"));
             Assert.That(result.SecretNumber, Is.EqualTo("1234"));
             Assert.That(result.AttemptCount, Is.EqualTo(5));
@@ -96,7 +96,7 @@ namespace GuessingGame.UnitTests
 
             // Assert
             _mockSessionRepository.Verify(repo => repo.GetGameDetails(sessionId), Times.Once);
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
     }
 }

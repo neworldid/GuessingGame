@@ -1,5 +1,5 @@
-﻿using GuessingGame.Application.Interfaces;
-using GuessingGame.Domain.Abstractions;
+﻿using GuessingGame.Domain.Abstractions;
+using GuessingGame.Domain.Abstractions.Repositories;
 using GuessingGame.Domain.Constants;
 
 namespace GuessingGame.Application.Processors;

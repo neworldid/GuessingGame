@@ -1,6 +1,6 @@
-﻿using GuessingGame.Application.Contracts;
-using GuessingGame.Application.Interfaces;
-using GuessingGame.Domain.Abstractions;
+﻿using GuessingGame.Domain.Abstractions;
+using GuessingGame.Domain.Abstractions.Repositories;
+using GuessingGame.Domain.Abstractions.Services;
 using GuessingGame.Domain.Constants;
 using GuessingGame.Domain.Models;
 
@@ -41,7 +41,7 @@ public class GameAttemptService(
 				TriesLeft = GameConstants.MaxAttempts - attemptNumber
 			};
 		}
-		catch (Exception e)
+		catch
 		{
 			return null;
 		}

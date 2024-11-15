@@ -1,9 +1,8 @@
 ﻿using Moq;
-using GuessingGame.Application.Interfaces;
 using GuessingGame.Domain.Abstractions;
 using GuessingGame.Domain.Models;
 using GuessingGame.Application.Services;
-using GuessingGame.Application.Contracts;
+using GuessingGame.Domain.Abstractions.Repositories;
 using GuessingGame.Domain.Constants;
 
 namespace GuessingGame.UnitTests
@@ -42,7 +41,7 @@ namespace GuessingGame.UnitTests
 		            x.PositionMatch == 12 &&
 		            x.MatchInIncorrectPositions == 22 &&
 		            x.GuessedNumber == "1234"))).Returns(Task.FromResult(1));
-            _mockLogicProcessor.Setup(proc => proc.GameFinished(22, 1, request.SessionId)).ReturnsAsync(false);
+            _mockLogicProcessor.Setup(proc => proc.GameFinished(12, 1, request.SessionId)).ReturnsAsync(false);
 
             // Act
             var result = await _gameAttemptService.ProcessAttemptAsync(request);
@@ -56,10 +55,10 @@ namespace GuessingGame.UnitTests
 		            x.PositionMatch == 12 &&
 		            x.MatchInIncorrectPositions == 22 &&
 		            x.GuessedNumber == "1234")), Times.Once);
-            _mockLogicProcessor.Verify(proc => proc.GameFinished(22, 1, request.SessionId), Times.Once);
+            _mockLogicProcessor.Verify(proc => proc.GameFinished(12, 1, request.SessionId), Times.Once);
 
-            Assert.NotNull(result);
-            Assert.False(result.IsCompleted);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.IsCompleted, Is.False);
             Assert.That(result.PositionMatch, Is.EqualTo(12));
             Assert.That(result.MatchInIncorrectPositions, Is.EqualTo(22));
             Assert.That(result.TriesLeft, Is.EqualTo(GameConstants.MaxAttempts - 1));
@@ -80,7 +79,7 @@ namespace GuessingGame.UnitTests
 			        x.PositionMatch == 12 &&
 			        x.MatchInIncorrectPositions == 22 &&
 			        x.GuessedNumber == "1234"))).Returns(Task.FromResult(1));
-	        _mockLogicProcessor.Setup(proc => proc.GameFinished(22, 1, request.SessionId)).ReturnsAsync(true);
+	        _mockLogicProcessor.Setup(proc => proc.GameFinished(12, 1, request.SessionId)).ReturnsAsync(true);
 
 	        // Act
 	        var result = await _gameAttemptService.ProcessAttemptAsync(request);
@@ -94,10 +93,10 @@ namespace GuessingGame.UnitTests
 			        x.PositionMatch == 12 &&
 			        x.MatchInIncorrectPositions == 22 &&
 			        x.GuessedNumber == "1234")), Times.Once);
-	        _mockLogicProcessor.Verify(proc => proc.GameFinished(22, 1, request.SessionId), Times.Once);
+	        _mockLogicProcessor.Verify(proc => proc.GameFinished(12, 1, request.SessionId), Times.Once);
 
-	        Assert.NotNull(result);
-	        Assert.True(result.IsCompleted);
+	        Assert.That(result, Is.Not.Null);
+	        Assert.That(result.IsCompleted, Is.True);
 	        Assert.That(result.PositionMatch, Is.EqualTo(0));
         }
 
@@ -114,7 +113,7 @@ namespace GuessingGame.UnitTests
 
             // Assert
             _mockSessionRepository.Verify(repo => repo.GetGameDetails(guid), Times.Once);
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
     }
 }

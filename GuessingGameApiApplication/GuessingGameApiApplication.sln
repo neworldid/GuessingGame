@@ -1,12 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessingGame.Application", "GuessingGame.Application\GuessingGame.Application.csproj", "{CD2FBB3A-E4C5-42D3-8C34-35284D794726}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessingGame.API", "GuessingGame.API\GuessingGame.API.csproj", "{CD2FBB3A-E4C5-42D3-8C34-35284D794726}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessingGame.DataAccess", "GuessingGame.DataAccess\GuessingGame.DataAccess.csproj", "{F8D7D5A9-8E4A-4B79-A2BA-D10DFD90CA97}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessingGame.Infrastructure", "GuessingGame.Infrastructure\GuessingGame.Infrastructure.csproj", "{F8D7D5A9-8E4A-4B79-A2BA-D10DFD90CA97}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessingGame.UnitTests", "GuessingGame.UnitTests\GuessingGame.UnitTests.csproj", "{B488D0E5-FCBD-4032-B050-A609D972F89E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessingGame.Domain", "GuessingGame.Domain\GuessingGame.Domain.csproj", "{F1C5C77B-F72C-42A4-B777-FC81EDBA4364}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessingGame.Application", "GuessingGame.Application\GuessingGame.Application.csproj", "{8DB219B7-8787-4A4A-A4C6-8BE9DF4424EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +32,9 @@ Global
 		{F1C5C77B-F72C-42A4-B777-FC81EDBA4364}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1C5C77B-F72C-42A4-B777-FC81EDBA4364}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1C5C77B-F72C-42A4-B777-FC81EDBA4364}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DB219B7-8787-4A4A-A4C6-8BE9DF4424EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DB219B7-8787-4A4A-A4C6-8BE9DF4424EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DB219B7-8787-4A4A-A4C6-8BE9DF4424EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DB219B7-8787-4A4A-A4C6-8BE9DF4424EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

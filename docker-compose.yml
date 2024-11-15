@@ -22,7 +22,7 @@
     container_name: game_backend
     build:
       context: .
-      dockerfile: GuessingGameApiApplication/GuessingGame.Application/Dockerfile
+      dockerfile: GuessingGameApiApplication/GuessingGame.API/Dockerfile
     depends_on:
       - game_db
     ports:
