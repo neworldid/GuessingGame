@@ -61,7 +61,6 @@ namespace GuessingGame.UnitTests
             var guid = new Guid("d2719b1e-1c4b-4b8e-8b1e-1c4b4b8e8b1e");
             var game = new GameDetailsModel
             {
-                PlayerName = "Player1",
                 SecretNumber = "1234",
                 AttemptCount = 5,
                 StartTime = DateTime.Now,
@@ -77,7 +76,6 @@ namespace GuessingGame.UnitTests
             // Assert
             _mockSessionRepository.Verify(repo => repo.GetGameDetails(guid), Times.Once);
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.PlayerName, Is.EqualTo("Player1"));
             Assert.That(result.SecretNumber, Is.EqualTo("1234"));
             Assert.That(result.AttemptCount, Is.EqualTo(5));
             Assert.That(result.Duration, Is.EqualTo("05:00"));

@@ -2,20 +2,23 @@
 import GuessedNumberInput from "../Components/GuessedNumberInput.tsx";
 import {handleAttempt} from "../Handlers/GameAttemptHandler.ts";
 import {DialogTitle} from "@headlessui/react";
+import {useGameContext} from "../Hooks/GameStateContext.ts";
 
-interface GameContentProps {
-	setCurrentView: (view: string) => void;
-	sessionId: string;
-}
-export default function GameContent({ setCurrentView, sessionId }: GameContentProps) {
+export default function GameContent() {
 	const [number, setNumber] = useState("");
-	const [errorMessage, setErrorMessage] = useState('');
 	const [previousGuess, setPreviousGuess] = useState<string | null>(null);
 	const [triesLeft, setTriesLeft] = useState<number | null>(null);
 	const [matches, setMatches] = useState<number | null>(null);
 	const [positionMatches, setPositionMatches] = useState<number | null>(null);
-	const [loading, setLoading] = useState(false);
 
+	const {
+		sessionId,
+		setCurrentView,
+		loading,
+		setLoading,
+		errorMessage,
+		setErrorMessage} = useGameContext();
+	
 	const attemptGuess = async () => {
 		setLoading(true);
 		await handleAttempt({

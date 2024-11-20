@@ -31,7 +31,6 @@ public class GameSessionRepository(GuessingGameDbContext context) : IGameSession
 
 		return new GameDetailsModel
 		{
-			PlayerName = gameSession.PlayerName,
 			StartTime = gameSession.StartTime,
 			EndTime = gameSession.EndTime,
 			SecretNumber = gameSession.SecretNumber,

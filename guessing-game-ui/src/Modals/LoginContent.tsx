@@ -1,20 +1,21 @@
 ﻿import {UserIcon} from "@heroicons/react/24/outline";
-import React, {useState} from "react";
+import React from "react";
 import {TokenResponse, useGoogleLogin} from "@react-oauth/google";
 import {getName} from "../Services/auth.ts";
 import {handleStartGame} from "../Handlers/StartGameHandler.ts";
 import NameInput from "../Components/NameInput.tsx";
+import {useGameContext} from "../Hooks/GameStateContext.ts";
 
-interface LoginContentProps {
-	setCurrentView: (view: string) => void;
-	setSessionId: (sessionId: string) => void;
-}
-
-export default function LoginContent({ setCurrentView, setSessionId }: LoginContentProps) {
-	const [playerName, setPlayerName] = useState('');
-	const [errorMessage, setErrorMessage] = useState('');
-	const [loading, setLoading] = useState(false);
-
+export default function LoginContent() {
+	const {
+		setCurrentView, 
+		setSessionId,
+		playerName,
+		setPlayerName,
+		loading,
+		setLoading,
+		errorMessage,
+		setErrorMessage} = useGameContext();
 	const handleGoogleLoginClick: React.MouseEventHandler<HTMLButtonElement> = () => {
 		handleGoogleLogin();
 	};

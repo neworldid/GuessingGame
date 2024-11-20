@@ -12,6 +12,7 @@ export const handleStartGame = async ({ playerName, setErrorMessage, setCurrentV
 		setErrorMessage("Name is empty or too short");
 		return;
 	}
+	setErrorMessage('');
 
 	try {
 		const response = await startGame({ PlayerName: playerName });
@@ -24,7 +25,7 @@ export const handleStartGame = async ({ playerName, setErrorMessage, setCurrentV
 			return
 		}
 
-		setSessionId(data.gameSessionId); // Assuming the response contains a sessionId
+		setSessionId(data.gameSessionId);
 		setCurrentView('game');
 
 		console.log("Submitted player name:", playerName, "Response:", data);

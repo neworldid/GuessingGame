@@ -30,7 +30,6 @@ public class GameSessionService(IGameSessionRepository sessionRepository, IGameL
 		
 			return new GameResultResponse
 			{
-				PlayerName = game.PlayerName,
 				SecretNumber = game.SecretNumber,
 				AttemptCount = game.AttemptCount,
 				Duration = durationString,

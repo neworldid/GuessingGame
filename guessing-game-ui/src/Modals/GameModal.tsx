@@ -2,9 +2,9 @@
 import Modal from './Modal'
 import GameContent from "./GameContent.tsx";
 import LoginContent from "./LoginContent.tsx";
-import {useState} from "react";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import FinishGameContent from "./FinishGameContent.tsx";
+import {useGameContext} from "../Hooks/GameStateContext.ts";
 
 const googleclientid = import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -14,8 +14,8 @@ interface SpecificModalProps {
 }
 
 export default function GameModal({ isOpen, onClose }: SpecificModalProps) {
-	const [currentView, setCurrentView] = useState('login');
-	const [sessionId, setSessionId] = useState<string>('');
+	const {sessionId, currentView, setCurrentView, setSessionId} = useGameContext();
+
 
 	const handleClose = () => {
 		onClose();
@@ -26,9 +26,9 @@ export default function GameModal({ isOpen, onClose }: SpecificModalProps) {
 	return (
 		<GoogleOAuthProvider clientId={googleclientid}>
 			<Modal isOpen={isOpen} onClose={handleClose}>
-				{currentView === 'login' && <LoginContent setCurrentView={setCurrentView} setSessionId={setSessionId}/>}
-				{currentView === 'game' && sessionId && <GameContent setCurrentView={setCurrentView} sessionId={sessionId} />}
-				{currentView === 'finish' && sessionId && <FinishGameContent sessionId={sessionId} />}
+				{currentView === 'login' && <LoginContent />}
+				{currentView === 'game' && sessionId && <GameContent />}
+				{currentView === 'finish' && sessionId && <FinishGameContent  />}
 			</Modal>
 		</GoogleOAuthProvider>
 	)
