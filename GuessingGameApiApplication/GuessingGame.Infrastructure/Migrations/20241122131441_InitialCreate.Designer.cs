@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GuessingGame.Infrastructure.Migrations
 {
     [DbContext(typeof(GuessingGameDbContext))]
-    [Migration("20241115092943_InitialCreate")]
+    [Migration("20241122131441_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -110,6 +110,31 @@ namespace GuessingGame.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("GameSessions");
+                });
+
+            modelBuilder.Entity("GuessingGame.Infrastructure.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("GuessingGame.Infrastructure.Entities.GameAttempt", b =>

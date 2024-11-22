@@ -8,18 +8,26 @@ import {
 	Bars3Icon,
 	XMarkIcon,
 } from '@heroicons/react/24/outline'
-import GameModal from "../Modals/GameModal.tsx";
+import AuthModal from "Modals/Auth/AuthModal.tsx";
+import {useAuthContext} from "Hooks/AuthStateContext.ts";
+import {ADMIN_PAGE_VIEW, HOME_PAGE_VIEW, LEADERBOARD_PAGE_VIEW} from "Constants/ViewNames.ts";
+import {GoogleOAuthProvider} from "@react-oauth/google";
 
 export default function Header() {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const {isAdmin, setIsAdmin} = useAuthContext();
+	const googleclientid = import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID;
+
 
 	return (
 		<header className="bg-white">
-			<GameModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
+			<GoogleOAuthProvider clientId={googleclientid}>
+				<AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
+			</GoogleOAuthProvider>
 			<nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
 				<div className="flex lg:flex-1">
-					<a href="/home" className="-m-1.5 p-1.5">
+					<a href={HOME_PAGE_VIEW} className="-m-1.5 p-1.5">
 						<span className="sr-only">Your Company</span>
 						<img alt="" src="/guessinggame.png" className="h-8 w-auto"/>
 					</a>
@@ -35,17 +43,28 @@ export default function Header() {
 					</button>
 				</div>
 				<PopoverGroup className="hidden lg:flex lg:gap-x-12">
-					<a href="/home" className="text-sm font-semibold leading-6 text-gray-900">
+					<a href={HOME_PAGE_VIEW} className="text-sm font-semibold leading-6 text-gray-900">
 						Game rules
 					</a>
-					<a href="/leaderboard" className="text-sm font-semibold leading-6 text-gray-900">
+					<a href={LEADERBOARD_PAGE_VIEW} className="text-sm font-semibold leading-6 text-gray-900">
 						Leaderboard
 					</a>
+					{isAdmin && (
+						<a href={ADMIN_PAGE_VIEW} className="text-sm font-semibold leading-6 text-gray-900">
+							Admin
+						</a>
+					)}
 				</PopoverGroup>
 				<div className="hidden lg:flex lg:flex-1 lg:justify-end hover:cursor-pointer">
-					<a onClick={() => setIsModalOpen(true)} className="text-sm font-semibold leading-6 text-gray-900">
-						Start Game <span aria-hidden="true">&rarr;</span>
-					</a>
+					{isAdmin ? (
+						<a onClick={() => setIsAdmin(false)} className="text-sm font-semibold leading-6 text-gray-900">
+							Log out
+						</a>
+					) : (
+						<a onClick={() => setIsModalOpen(true)} className="text-sm font-semibold leading-6 text-gray-900">
+							Log in <span aria-hidden="true">&rarr;</span>
+						</a>
+					)}
 				</div>
 			</nav>
 			<Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
@@ -73,20 +92,31 @@ export default function Header() {
 					<div className="mt-6 flow-root">
 						<div className="-my-6 divide-y divide-gray-500/10">
 							<div className="space-y-2 py-6">
-								<a href="/home"
+								<a href={HOME_PAGE_VIEW}
 								   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
 									Game rules
 								</a>
-								<a href="/leaderboard"
+								<a href={LEADERBOARD_PAGE_VIEW}
 								   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
 									Leaderboard
 								</a>
+								{isAdmin && (
+									<a href={ADMIN_PAGE_VIEW}
+									   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+										Admin
+									</a>
+								)}
 							</div>
 							<div className="py-6">
-								<a href="#" onClick={() => setIsModalOpen(true)}
-									className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-									Start Game
-								</a>
+								{isAdmin ? (
+									<a href="#" onClick={() => setIsAdmin(false)} className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+										Log out
+									</a>
+								) : (
+									<a href="#" onClick={() => setIsModalOpen(true)} className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+										Log in
+									</a>
+								)}
 							</div>
 						</div>
 					</div>

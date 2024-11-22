@@ -1,5 +1,4 @@
 using GuessingGame.API.Contracts;
-using GuessingGame.Domain.Abstractions.Repositories;
 using GuessingGame.Domain.Abstractions.Services;
 using GuessingGame.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,8 +10,7 @@ namespace GuessingGame.API.Controllers;
 public class GameController(
 	IGameSessionService gameSessionService, 
 	IGameAttemptService gameAttemptService,
-	IGameResultService gameResultService,
-	IGameResultRepository gameResultRepository) : ControllerBase
+	IGameResultService gameResultService) : ControllerBase
 {
 	/// <summary>
 	/// Starts a new game session for the player.
@@ -83,29 +81,5 @@ public class GameController(
 			return NoContent();
 
 		return Ok(results);
-	}
-	
-	/// <summary>
-	/// Deletes a game result by its ID.
-	/// </summary>
-	/// <param name="resultId">The unique identifier of the game result to delete.</param>
-	/// <returns>An <see cref="IActionResult"/> indicating the result of the operation.</returns>
-	/// <response code="200">The game result was successfully deleted.</response>
-	/// <response code="404">The game result was not found or an error occurred during deletion.</response>
-	[HttpDelete("DeleteResult/{resultId:int}")]
-	public async Task<IActionResult> DeleteResult(int resultId)
-	{
-		try
-		{
-			var result = await gameResultRepository.DeleteGameResult(resultId);
-			if (result > 0)
-				return Ok();
-		}
-		catch
-		{
-			return NotFound();
-		}
-		
-		return NotFound();
 	}
 }

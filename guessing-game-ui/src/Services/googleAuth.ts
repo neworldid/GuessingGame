@@ -1,10 +1,15 @@
 ﻿import axios from "axios";
 import {TokenResponse} from "@react-oauth/google";
 
+export interface GoogleAccountData {
+	name: string;
+	email: string;
+	id: string;
+}
 
-export const getName = async (tokenResponse: TokenResponse)=> {
+export async function getGoogleAccountData(tokenResponse: TokenResponse): Promise<GoogleAccountData> {
 	try {
-		let name = '';
+		let data: GoogleAccountData = { name: '', email: '', id: '' };
 		if (tokenResponse) {
 			await axios
 				.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenResponse.access_token}`, {
@@ -14,13 +19,13 @@ export const getName = async (tokenResponse: TokenResponse)=> {
 					}
 				})
 				.then((res) => {
-					name = res.data.name;
+					data = res.data;
 				})
 				.catch((err) => console.log(err));
 		}
-		return name;
+		return data;
 	} catch (error) {
 		console.error('Invalid token:', error);
-		return '';
+		throw new Error('Failed to fetch Google account data');
 	}
 }

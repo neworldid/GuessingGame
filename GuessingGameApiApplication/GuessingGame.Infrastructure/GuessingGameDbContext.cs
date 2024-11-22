@@ -8,6 +8,7 @@ public class GuessingGameDbContext(DbContextOptions<GuessingGameDbContext> optio
 	public DbSet<GameSession> GameSessions { get; set; }
 	public DbSet<GameResult> GameResults { get; set; }
 	public DbSet<GameAttempt> GameAttempts { get; set; }
+	public DbSet<User> Users { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

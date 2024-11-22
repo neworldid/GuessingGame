@@ -23,7 +23,17 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "declaration": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "paths": {
+      "src/*": ["src/*"],
+      "Services/*": ["src/Services/*"],
+      "Components/*": ["src/Components/*"],
+      "Hooks/*": ["src/Hooks/*"],
+      "Handlers/*": ["src/Handlers/*"],
+      "Modals/*": ["src/Modals/*"],
+      "Constants/*": ["src/Constants/*"],
+    }
   },
   "include": [
     "src",

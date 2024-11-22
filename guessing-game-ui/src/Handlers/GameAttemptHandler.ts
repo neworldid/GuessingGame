@@ -1,4 +1,5 @@
-﻿import {processAttempt} from "../Services/api.ts";
+﻿import {processAttempt} from "Services/gameApi.ts";
+import {GAME_FINISH_VIEW} from "Constants/ViewNames.ts";
 
 interface GameAttemptProps {
 	number: string;
@@ -32,7 +33,7 @@ export const handleAttempt = async ({ number, sessionId, setCurrentView, setNumb
 		}
 		
 		if (data.isCompleted) {
-			setCurrentView('finish');
+			setCurrentView(GAME_FINISH_VIEW);
 			return;
 		}
 		

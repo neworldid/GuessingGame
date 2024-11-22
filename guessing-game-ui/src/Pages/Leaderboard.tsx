@@ -1,5 +1,6 @@
 ﻿import { useEffect, useState } from "react";
-import {deleteResult, getGameResults} from "../Services/api.ts";
+import {getGameResults} from "Services/gameApi.ts";
+import {deleteResult} from "Services/gameAdminApi.ts";
 import { FaTrash } from "react-icons/fa";
 
 function Leaderboard() {

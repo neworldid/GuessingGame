@@ -1,10 +1,10 @@
 ﻿import {useEffect, useState} from "react";
 import {DialogTitle} from "@headlessui/react";
-import { getGameDetails } from "../Services/api.ts";
-import {handleStartGame} from "../Handlers/StartGameHandler.ts";
-import {useGameContext} from "../Hooks/GameStateContext.ts";
+import { getGameDetails } from "Services/gameApi.ts";
+import {handleStartGame} from "Handlers/StartGameHandler.ts";
+import {useGameContext} from "Hooks/GameStateContext.ts";
 
-export default function FinishGameContent()  {
+export default function GameFinishContent()  {
 	const [sessionDetails, setSessionDetails] = useState<any>(null);
 	const {playerName, setErrorMessage, setCurrentView, sessionId, setSessionId, loading, setLoading} = useGameContext();
 

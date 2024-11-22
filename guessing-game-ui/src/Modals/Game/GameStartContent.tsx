@@ -1,12 +1,12 @@
 ﻿import {UserIcon} from "@heroicons/react/24/outline";
 import React from "react";
 import {TokenResponse, useGoogleLogin} from "@react-oauth/google";
-import {getName} from "../Services/auth.ts";
-import {handleStartGame} from "../Handlers/StartGameHandler.ts";
-import NameInput from "../Components/NameInput.tsx";
-import {useGameContext} from "../Hooks/GameStateContext.ts";
+import {getGoogleAccountData, GoogleAccountData} from "Services/googleAuth.ts";
+import {handleStartGame} from "Handlers/StartGameHandler.ts";
+import NameInput from "Components/NameInput.tsx";
+import {useGameContext} from "Hooks/GameStateContext.ts";
 
-export default function LoginContent() {
+export default function GameStartContent() {
 	const {
 		setCurrentView, 
 		setSessionId,
@@ -22,8 +22,8 @@ export default function LoginContent() {
 
 	const handleGoogleLogin = useGoogleLogin({
 		onSuccess: async (tokenResponse: TokenResponse) => {
-			const name = await getName(tokenResponse);
-			setPlayerName(name);
+			const data: GoogleAccountData = await getGoogleAccountData(tokenResponse);
+			setPlayerName(data.name);
 		},
 	});
 

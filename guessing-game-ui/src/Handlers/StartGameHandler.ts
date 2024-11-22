@@ -1,5 +1,5 @@
-﻿import {startGame} from "../Services/api.ts";
-
+﻿import {startGame} from "Services/gameApi.ts";
+import {GAME_PROCESS_VIEW} from "Constants/ViewNames.ts";
 export interface StartGameProps {
 	playerName: string;
 	setErrorMessage: (errorMessage: string) => void;
@@ -26,7 +26,7 @@ export const handleStartGame = async ({ playerName, setErrorMessage, setCurrentV
 		}
 
 		setSessionId(data.gameSessionId);
-		setCurrentView('game');
+		setCurrentView(GAME_PROCESS_VIEW);
 
 		console.log("Submitted player name:", playerName, "Response:", data);
 

@@ -49,12 +49,3 @@ export const getGameResults = async ()=> {
 		},
 	});
 }
-
-export const deleteResult = async (resultId: number)=> {
-	return await fetch(`${baseUrl}/Game/DeleteResult/` + resultId, {
-		method: 'DELETE',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
-}

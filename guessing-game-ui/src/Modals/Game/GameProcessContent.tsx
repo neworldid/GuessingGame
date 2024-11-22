@@ -1,10 +1,10 @@
 ﻿import { useState } from 'react';
-import GuessedNumberInput from "../Components/GuessedNumberInput.tsx";
-import {handleAttempt} from "../Handlers/GameAttemptHandler.ts";
+import GuessedNumberInput from "Components/GuessedNumberInput.tsx";
+import {handleAttempt} from "Handlers/GameAttemptHandler.ts";
 import {DialogTitle} from "@headlessui/react";
-import {useGameContext} from "../Hooks/GameStateContext.ts";
+import {useGameContext} from "Hooks/GameStateContext.ts";
 
-export default function GameContent() {
+export default function GameProcessContent() {
 	const [number, setNumber] = useState("");
 	const [previousGuess, setPreviousGuess] = useState<string | null>(null);
 	const [triesLeft, setTriesLeft] = useState<number | null>(null);
