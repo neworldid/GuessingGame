@@ -4,7 +4,7 @@ import {TokenResponse, useGoogleLogin} from "@react-oauth/google";
 import {getGoogleAccountData, GoogleAccountData} from "Services/googleAuth.ts";
 import {handleStartGame} from "Handlers/StartGameHandler.ts";
 import NameInput from "Components/NameInput.tsx";
-import {useGameContext} from "Hooks/GameStateContext.ts";
+import {useGameContext} from "Hooks/GameStateProvider.tsx";
 
 export default function GameStartContent() {
 	const {

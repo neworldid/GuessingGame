@@ -1,14 +1,15 @@
 ﻿import 'src/index.css'
 import {TokenResponse, useGoogleLogin} from "@react-oauth/google";
 import Modal from "Modals/Modal.tsx";
-import {useAuthContext} from "Hooks/AuthStateContext.ts";
+import {useAuthContext} from "Hooks/AuthStateProvider.tsx";
 import {AUTH_LOGIN_VIEW, AUTH_REGISTER_VIEW} from "Constants/ViewNames.ts";
 import AuthLoginContent from "Modals/Auth/AuthLoginContent.tsx";
 import AuthRegisterContent from "Modals/Auth/AuthRegisterContent.tsx";
 import {UserIcon} from "@heroicons/react/24/outline";
 import React from "react";
 import {getGoogleAccountData} from "Services/googleAuth.ts";
-import {login, LoginAccountData} from "Services/gameAuthApi.ts";
+import {login, LoginAccountData} from "Services/gameUserApi.ts";
+import {useFormContext} from "Hooks/FormStateProvider.tsx";
 
 
 interface SpecificModalProps {
@@ -17,8 +18,14 @@ interface SpecificModalProps {
 }
 
 export default function AuthModal({ isOpen, onClose }: SpecificModalProps) {
-	const {currentView, setUserName, setEmail, setIsGoogleData, setPassword, setIsAdmin} = useAuthContext();
+	const {currentView, setIsAdmin} = useAuthContext();
+	const {setUserName, setEmail, setIsGoogleData, setRegisterPassword, resetFormContext} = useFormContext();
 
+	const handleClose = () => {
+		resetFormContext();
+		onClose();
+	};
+	
 	const handleGoogleLoginClick: React.MouseEventHandler<HTMLButtonElement> = () => {
 		handleGoogleLogin();
 	};
@@ -30,21 +37,22 @@ export default function AuthModal({ isOpen, onClose }: SpecificModalProps) {
 				let loginData: LoginAccountData = {email: data.email, password: data.id };
 				const response = await login(loginData);
 				if (!response.ok){
+					setEmail(data.email);
 					return
 				}
-				onClose();
+				handleClose();
 				setIsAdmin(true);
 			} else {
 				setUserName(data.name);
 				setEmail(data.email);
-				setPassword(data.id);
+				setRegisterPassword(data.id);
 				setIsGoogleData(true);
 			}
 		},
 	});
 
 	return (
-			<Modal isOpen={isOpen} onClose={onClose}>
+			<Modal isOpen={isOpen} onClose={handleClose}>
 				<div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
 					<div className="sm:flex sm:items-start">
 						<div
@@ -53,7 +61,7 @@ export default function AuthModal({ isOpen, onClose }: SpecificModalProps) {
 						</div>
 						<button
 							className="inline-flex w-full justify-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 sm:ml-3 sm:w-auto"
-							onClick={handleGoogleLoginClick}>Sign in with Google
+							onClick={handleGoogleLoginClick}>{currentView === AUTH_LOGIN_VIEW ? "Sign in with Google" : "Register with Google"}
 						</button>
 					</div>
 				</div>
@@ -67,7 +75,7 @@ export default function AuthModal({ isOpen, onClose }: SpecificModalProps) {
 					</div>
 				</div>
 				
-				{currentView === AUTH_LOGIN_VIEW && <AuthLoginContent onClose={onClose}/>}
+				{currentView === AUTH_LOGIN_VIEW && <AuthLoginContent handleClose={handleClose}/>}
 				{currentView === AUTH_REGISTER_VIEW && <AuthRegisterContent/>}
 			</Modal>
 	)

@@ -1,28 +1,11 @@
-﻿using GuessingGame.Domain.Abstractions;
+﻿using GuessingGame.Domain.Abstractions.Processors;
 using GuessingGame.Domain.Abstractions.Repositories;
 using GuessingGame.Domain.Constants;
 
 namespace GuessingGame.Application.Processors;
 
-public class GameLogicProcessor(IGameSessionRepository sessionRepository, IGameResultRepository resultRepository) : IGameLogicProcessor
+public class GameLogicProcessor(IGameResultRepository resultRepository) : IGameLogicProcessor
 {
-	public string GenerateUniqueFourDigitNumber()
-	{
-		var random = new Random();
-		var digits = new HashSet<int>();
-
-		while (digits.Count < 4)
-		{
-			var newDigit = random.Next(0, 10);
-			if (!digits.Contains(newDigit))
-			{
-				digits.Add(random.Next(0, 10));
-			}
-		}
-
-		return string.Join("", digits);
-	}
-
 	public (int positionMatch, int matchInIncorrectPositions) CalculateMatches(string secretNumber, string guessedNumber)
 	{
 		var positionMatch = 0;
@@ -46,12 +29,9 @@ public class GameLogicProcessor(IGameSessionRepository sessionRepository, IGameR
 	public async Task<bool> GameFinished(int positionMatch, int attemptNumber, Guid sessionId)
 	{
 		if (positionMatch != GameConstants.SecretNumberLength &&
-		    attemptNumber != GameConstants.MaxAttempts) 
+		    attemptNumber != GameConstants.MaxAttempts)
 			return false;
 		
-		await sessionRepository.EndGame(sessionId);
-		await resultRepository.AddGameResult(sessionId, attemptNumber, positionMatch == GameConstants.SecretNumberLength);
-		return true;
-
+		return await resultRepository.AddGameResultAndEndSessionAsync(sessionId, attemptNumber, positionMatch == GameConstants.SecretNumberLength);
 	}
 }

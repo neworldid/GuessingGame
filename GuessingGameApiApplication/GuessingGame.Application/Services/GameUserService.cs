@@ -6,28 +6,37 @@ namespace GuessingGame.Application.Services;
 
 public class GameUserService(IGameUserRepository gameUserRepository, IPasswordHasher passwordHasher) : IGameUserService
 {
-	public async Task<int> LoginUser(string email, string password)
+	public async Task<bool> LoginUser(string email, string password)
 	{
-		var user = await gameUserRepository.GetUserByEmail(email);
-		if (user == null)
+		try
 		{
-			return 0;
+			var user = await gameUserRepository.GetUserByEmail(email);
+			return passwordHasher.Verify(password, user.Password);
 		}
-		
-		var result = passwordHasher.Verify(password, user.Password);
-		return result == false ? 0 : 1;
+		catch
+		{
+			return false;
+		}
 	}
 
 	public async Task<int> RegisterUser(string username, string email, string password)
 	{
-		var user = await gameUserRepository.GetUserByEmail(email);
-		if (user != null)
+		try
 		{
-			return 0;
+			var user = await gameUserRepository.GetUserByEmail(email);
+		
+			if (user != null)
+			{
+				return 0;
+			}
+
+			var hashedPassword = passwordHasher.Generate(password);
+
+			return await gameUserRepository.AddUser(username, hashedPassword, email);
 		}
-
-		var hashedPassword = passwordHasher.Generate(password);
-
-		return await gameUserRepository.AddUser(username, hashedPassword, email);
+		catch
+		{
+			return -1;
+		}
 	}
 }

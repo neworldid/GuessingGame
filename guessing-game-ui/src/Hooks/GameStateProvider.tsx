@@ -1,9 +1,21 @@
-﻿import {ReactNode, useState} from "react";
-import { GameStateContext } from "./GameStateContext";
+﻿import {createContext, ReactNode, useContext, useState} from "react";
 import { GAME_START_VIEW} from "Constants/ViewNames.ts";
 
 interface GameProviderProps {
 	children: ReactNode;
+}
+
+interface GameState {
+	currentView: string;
+	sessionId: string;
+	playerName: string;
+	errorMessage: string;
+	loading: boolean;
+	setCurrentView: (view: string) => void;
+	setSessionId: (sessionId: string) => void;
+	setPlayerName: (name: string) => void;
+	setErrorMessage: (message: string) => void;
+	setLoading: (loading: boolean) => void;
 }
 
 export const GameStateProvider = ({ children }: GameProviderProps) => {
@@ -31,4 +43,14 @@ export const GameStateProvider = ({ children }: GameProviderProps) => {
 			{children}
 		</GameStateContext.Provider>
 	);
+};
+
+const GameStateContext = createContext<GameState | undefined>(undefined);
+
+export const useGameContext = () => {
+	const context = useContext(GameStateContext);
+	if (!context) {
+		throw new Error('useGameContext must be used within a GameProvider');
+	}
+	return context;
 };

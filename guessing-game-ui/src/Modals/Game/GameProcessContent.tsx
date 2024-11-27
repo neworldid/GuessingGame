@@ -2,7 +2,7 @@
 import GuessedNumberInput from "Components/GuessedNumberInput.tsx";
 import {handleAttempt} from "Handlers/GameAttemptHandler.ts";
 import {DialogTitle} from "@headlessui/react";
-import {useGameContext} from "Hooks/GameStateContext.ts";
+import {useGameContext} from "Hooks/GameStateProvider.tsx";
 
 export default function GameProcessContent() {
 	const [number, setNumber] = useState("");

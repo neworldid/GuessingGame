@@ -1,8 +1,8 @@
 ﻿import {useEffect, useState} from "react";
 import {DialogTitle} from "@headlessui/react";
-import { getGameDetails } from "Services/gameApi.ts";
+import { getResultDetailsBySessionId } from "Services/gameApi.ts";
 import {handleStartGame} from "Handlers/StartGameHandler.ts";
-import {useGameContext} from "Hooks/GameStateContext.ts";
+import {useGameContext} from "Hooks/GameStateProvider.tsx";
 
 export default function GameFinishContent()  {
 	const [sessionDetails, setSessionDetails] = useState<any>(null);
@@ -11,7 +11,7 @@ export default function GameFinishContent()  {
 	useEffect(() => {
 		const fetchSessionDetails = async () => {
 			try {
-				const response = await getGameDetails({ SessionId: sessionId });
+				const response = await getResultDetailsBySessionId(sessionId);
 				const data = await response.json();
 				setSessionDetails(data);
 			} catch (error) {

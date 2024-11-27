@@ -1,17 +1,15 @@
-﻿using GuessingGame.Domain.Abstractions;
-using GuessingGame.Domain.Abstractions.Repositories;
+﻿using GuessingGame.Domain.Abstractions.Repositories;
 using GuessingGame.Domain.Abstractions.Services;
-using GuessingGame.Domain.Models;
 
 namespace GuessingGame.Application.Services;
 
-public class GameSessionService(IGameSessionRepository sessionRepository, IGameLogicProcessor logicProcessor) : IGameSessionService
+public class GameSessionService(IGameSessionRepository sessionRepository) : IGameSessionService
 {
 	public async Task<Guid?> StartNewGame(string playerName)
 	{
 		try
 		{
-			var secretNumber = logicProcessor.GenerateUniqueFourDigitNumber();
+			var secretNumber = GenerateUniqueFourDigitNumber();
 			return await sessionRepository.AddGameSession(playerName, secretNumber);
 		}
 		catch
@@ -20,25 +18,20 @@ public class GameSessionService(IGameSessionRepository sessionRepository, IGameL
 		}
 	}
 
-	public async Task<GameResultResponse?> GetGameDetails(Guid sessionId)
+	private static string GenerateUniqueFourDigitNumber()
 	{
-		try
+		var random = new Random();
+		var digits = new HashSet<int>();
+
+		while (digits.Count < 4)
 		{
-			var game = await sessionRepository.GetGameDetails(sessionId);
-			var duration = game.EndTime - game.StartTime;
-			var durationString = duration?.ToString(@"mm\:ss");
-		
-			return new GameResultResponse
+			var newDigit = random.Next(0, 10);
+			if (!digits.Contains(newDigit))
 			{
-				SecretNumber = game.SecretNumber,
-				AttemptCount = game.AttemptCount,
-				Duration = durationString,
-				Won = game.Won
-			};
+				digits.Add(random.Next(0, 10));
+			}
 		}
-		catch
-		{
-			return null;
-		}
+
+		return string.Join("", digits);
 	}
 }

@@ -1,4 +1,4 @@
-﻿namespace GuessingGame.Infrastructure.Entities;
+﻿namespace GuessingGame.Infrastructure.Database.Entities;
 
 public class GameAttempt
 {

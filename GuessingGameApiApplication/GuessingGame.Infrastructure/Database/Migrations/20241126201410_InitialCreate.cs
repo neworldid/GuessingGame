@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace GuessingGame.Infrastructure.Migrations
+namespace GuessingGame.Infrastructure.Database.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -24,6 +24,20 @@ namespace GuessingGame.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GameSessions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GameSettings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsEnabled = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GameSettings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,6 +101,11 @@ namespace GuessingGame.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "GameSettings",
+                columns: new[] { "Id", "Description", "IsEnabled" },
+                values: new object[] { 1, "Enable background service", true });
+
             migrationBuilder.CreateIndex(
                 name: "IX_GameAttempts_GameSessionId",
                 table: "GameAttempts",
@@ -107,6 +126,9 @@ namespace GuessingGame.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "GameResults");
+
+            migrationBuilder.DropTable(
+                name: "GameSettings");
 
             migrationBuilder.DropTable(
                 name: "Users");

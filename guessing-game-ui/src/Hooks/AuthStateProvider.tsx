@@ -1,5 +1,4 @@
-﻿import {ReactNode, useEffect, useState} from "react";
-import { AuthStateContext } from "./AuthStateContext";
+﻿import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import {AUTH_LOGIN_VIEW} from "Constants/ViewNames.ts";
 import Cookies from "js-cookie";
 
@@ -7,14 +6,17 @@ interface AuthStateProvider {
 	children: ReactNode;
 }
 
+interface AuthState {
+	currentView: string;
+	loading: boolean;
+	isAdmin: boolean;
+	setCurrentView: (view: string) => void;
+	setLoading: (loading: boolean) => void;
+	setIsAdmin: (isAdmin: boolean) => void;
+}
 export const AuthStateProvider = ({ children }: AuthStateProvider) => {
 	const [currentView, setCurrentView] = useState(AUTH_LOGIN_VIEW);
-	const [errorMessage, setErrorMessage] = useState('');
 	const [loading, setLoading] = useState(false);
-	const [isGoogleData, setIsGoogleData] = useState(false);
-	const [userName, setUserName] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
 	const [isAdmin, setIsAdmin] = useState(() => {
 		const cookieValue = Cookies.get('isAdmin');
 		return cookieValue === 'true';
@@ -29,18 +31,8 @@ export const AuthStateProvider = ({ children }: AuthStateProvider) => {
 			value={{
 				currentView,
 				setCurrentView,
-				errorMessage,
-				setErrorMessage,
 				loading,
 				setLoading,
-				isGoogleData,
-				setIsGoogleData,
-				userName,
-				setUserName,
-				email,
-				setEmail,
-				password,
-				setPassword,
 				isAdmin,
 				setIsAdmin
 			}}
@@ -48,4 +40,14 @@ export const AuthStateProvider = ({ children }: AuthStateProvider) => {
 			{children}
 		</AuthStateContext.Provider>
 	);
+};
+
+const AuthStateContext = createContext<AuthState | undefined>(undefined);
+
+export const useAuthContext = () => {
+	const context = useContext(AuthStateContext);
+	if (!context) {
+		throw new Error('useGameContext must be used within a GameProvider');
+	}
+	return context;
 };

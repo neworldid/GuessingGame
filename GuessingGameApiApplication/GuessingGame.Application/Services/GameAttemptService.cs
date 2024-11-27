@@ -1,4 +1,4 @@
-﻿using GuessingGame.Domain.Abstractions;
+﻿using GuessingGame.Domain.Abstractions.Processors;
 using GuessingGame.Domain.Abstractions.Repositories;
 using GuessingGame.Domain.Abstractions.Services;
 using GuessingGame.Domain.Constants;
@@ -15,12 +15,12 @@ public class GameAttemptService(
 	{
 		try
 		{
-			var game = await sessionRepository.GetGameDetails(request.SessionId);
-			var secretNumber = game.SecretNumber;
+			var secretNumber = await sessionRepository.GetSecretNumber(request.SessionId);
 
 			var (positionMatch, matchInIncorrectPositions) = logicProcessor.CalculateMatches(secretNumber, request.Number);
 
-			var attemptNumber = game.AttemptCount + 1;
+			var attemptNumber = await attemptRepository.GetTotalAttempts(request.SessionId);
+			attemptNumber++;
 			var attemptModel = new GameAttemptModel(request.SessionId, request.Number, positionMatch, matchInIncorrectPositions, attemptNumber);
 		
 			await attemptRepository.AddAttempt(attemptModel);

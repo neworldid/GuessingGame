@@ -108,35 +108,35 @@ public class GameControllerTests
 	}
 
 	[Test]
-	public async Task GetGameDetails_ReturnsNoContent()
+	public async Task GetResultDetails_ReturnsNoContent()
 	{
 		// Arrange
 		var guid = new Guid("d2719b1e-1c4b-4b8e-8b1e-1c4b4b8e8b1e");
-		_mockGameSessionService.Setup(service => service.GetGameDetails(guid))
+		_mockGameResultService.Setup(service => service.GetGameDetailsBySessionId(guid))
 			.ReturnsAsync((GameResultResponse?) null);
 
 		// Act
-		var result = await _controller.GetGameDetails(guid);
+		var result = await _controller.GetResultDetailsBySessionId(guid);
 
 		// Assert
-		_mockGameSessionService.Verify(s => s.GetGameDetails(guid), Times.Once);
+		_mockGameResultService.Verify(s => s.GetGameDetailsBySessionId(guid), Times.Once);
 		Assert.That((result as NotFoundResult)?.StatusCode, Is.EqualTo(404));
 	}
 
 	[Test]
-	public async Task GetGameDetails_ReturnsOkResult()
+	public async Task GetResultDetails_ReturnsOkResult()
 	{
 		// Arrange
 		var guid = new Guid("d2719b1e-1c4b-4b8e-8b1e-1c4b4b8e8b1e");
 		var resultResponse = new GameResultResponse { PlayerName = "test-player", SecretNumber = "1234", AttemptCount = 1, Duration = "00:00", Won = true };
-		_mockGameSessionService.Setup(service => service.GetGameDetails(guid))
+		_mockGameResultService.Setup(service => service.GetGameDetailsBySessionId(guid))
 			.ReturnsAsync(resultResponse);
 
 		// Act
-		var result = await _controller.GetGameDetails(guid);
+		var result = await _controller.GetResultDetailsBySessionId(guid);
 
 		// Assert
-		_mockGameSessionService.Verify(s => s.GetGameDetails(guid), Times.Once);
+		_mockGameResultService.Verify(s => s.GetGameDetailsBySessionId(guid), Times.Once);
 		Assert.That((result as ObjectResult)?.StatusCode, Is.EqualTo(200));
             
 		Assert.That((result as ObjectResult)?.Value, Is.TypeOf<GameResultResponse>());

@@ -2,6 +2,7 @@
 using GuessingGame.Domain.Abstractions;
 using GuessingGame.Domain.Models;
 using GuessingGame.Application.Services;
+using GuessingGame.Domain.Abstractions.Processors;
 using GuessingGame.Domain.Abstractions.Repositories;
 using GuessingGame.Domain.Constants;
 
@@ -33,7 +34,8 @@ public class GameAttemptServiceTests
 		var guid = new Guid("d2719b1e-1c4b-4b8e-8b1e-1c4b4b8e8b1e");
 		var request = new AttemptRequest { SessionId = guid, Number = "1234" };
 		var game = new GameDetailsModel { SecretNumber = "5678", AttemptCount = 0 };
-		_mockSessionRepository.Setup(repo => repo.GetGameDetails(request.SessionId)).ReturnsAsync(game);
+		// remove game and add setup for getting secret number
+		_mockSessionRepository.Setup(repo => repo.GetSecretNumber(request.SessionId)).ReturnsAsync("5678");
 		_mockLogicProcessor.Setup(proc => proc.CalculateMatches("5678", "1234")).Returns((12, 22));
 		_mockAttemptRepository.Setup(a => a.AddAttempt(
 			It.Is<GameAttemptModel>(x => 
@@ -47,7 +49,7 @@ public class GameAttemptServiceTests
 		var result = await _gameAttemptService.ProcessAttemptAsync(request);
 
 		// Assert
-		_mockSessionRepository.Verify(repo => repo.GetGameDetails(request.SessionId), Times.Once);
+		_mockSessionRepository.Verify(repo => repo.GetSecretNumber(request.SessionId), Times.Once);
 		_mockLogicProcessor.Verify(proc => proc.CalculateMatches("5678", "1234"), Times.Once);
 		_mockAttemptRepository.Verify(a => a.AddAttempt(
 			It.Is<GameAttemptModel>(x => 
@@ -71,7 +73,7 @@ public class GameAttemptServiceTests
 		var guid = new Guid("d2719b1e-1c4b-4b8e-8b1e-1c4b4b8e8b1e");
 		var request = new AttemptRequest { SessionId = guid, Number = "1234" };
 		var game = new GameDetailsModel { SecretNumber = "5678", AttemptCount = 0 };
-		_mockSessionRepository.Setup(repo => repo.GetGameDetails(request.SessionId)).ReturnsAsync(game);
+		_mockSessionRepository.Setup(repo => repo.GetSecretNumber(request.SessionId)).ReturnsAsync("5678");
 		_mockLogicProcessor.Setup(proc => proc.CalculateMatches("5678", "1234")).Returns((12, 22));
 		_mockAttemptRepository.Setup(a => a.AddAttempt(
 			It.Is<GameAttemptModel>(x => 
@@ -85,7 +87,7 @@ public class GameAttemptServiceTests
 		var result = await _gameAttemptService.ProcessAttemptAsync(request);
 
 		// Assert
-		_mockSessionRepository.Verify(repo => repo.GetGameDetails(request.SessionId), Times.Once);
+		_mockSessionRepository.Verify(repo => repo.GetSecretNumber(request.SessionId), Times.Once);
 		_mockLogicProcessor.Verify(proc => proc.CalculateMatches("5678", "1234"), Times.Once);
 		_mockAttemptRepository.Verify(a => a.AddAttempt(
 			It.Is<GameAttemptModel>(x => 
@@ -106,13 +108,13 @@ public class GameAttemptServiceTests
 		// Arrange
 		var guid = new Guid("d2719b1e-1c4b-4b8e-8b1e-1c4b4b8e8b1e");
 		var request = new AttemptRequest { SessionId = guid };
-		_mockSessionRepository.Setup(repo => repo.GetGameDetails(guid)).ThrowsAsync(new Exception());
+		_mockSessionRepository.Setup(repo => repo.GetSecretNumber(guid)).ThrowsAsync(new Exception());
 
 		// Act
 		var result = await _gameAttemptService.ProcessAttemptAsync(request);
 
 		// Assert
-		_mockSessionRepository.Verify(repo => repo.GetGameDetails(guid), Times.Once);
+		_mockSessionRepository.Verify(repo => repo.GetSecretNumber(guid), Times.Once);
 		Assert.That(result, Is.Null);
 	}
 }

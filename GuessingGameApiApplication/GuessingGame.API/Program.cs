@@ -1,7 +1,8 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using GuessingGame.API;
-using GuessingGame.Infrastructure;
+using GuessingGame.Infrastructure.BackgroundServices;
+using GuessingGame.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,7 @@ services.AddSwaggerGen();
 
 services.AddDbContext<GuessingGameDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+services.AddHostedService<SessionCleanupService>();
 
 services.AddCors(options =>
 {

@@ -7,31 +7,14 @@ namespace GuessingGame.UnitTests;
 
 public class GameLogicProcessorTests
 {
-	private Mock<IGameSessionRepository> _mockSessionRepository;
 	private Mock<IGameResultRepository> _mockResultRepository;
 	private GameLogicProcessor _gameLogicProcessor;
 
 	[SetUp]
 	public void Setup()
 	{
-		_mockSessionRepository = new Mock<IGameSessionRepository>();
 		_mockResultRepository = new Mock<IGameResultRepository>();
-		_gameLogicProcessor = new GameLogicProcessor(
-			_mockSessionRepository.Object,
-			_mockResultRepository.Object);
-	}
-
-	[Test]
-	public void GenerateUniqueFourDigitNumber_ShouldReturnUniqueFourDigitNumber()
-	{
-		// Act
-		var result = _gameLogicProcessor.GenerateUniqueFourDigitNumber();
-
-		// Assert
-		Assert.That(result, Is.Not.Null);
-		Assert.That(result, Has.Length.EqualTo(4));
-		Assert.That(int.TryParse(result, out _), Is.True);
-		Assert.That(new HashSet<char>(result), Has.Count.EqualTo(4));
+		_gameLogicProcessor = new GameLogicProcessor(_mockResultRepository.Object);
 	}
 
 	[TestCase("1234", "1234", 4, 0)]
@@ -53,16 +36,14 @@ public class GameLogicProcessorTests
 	{
 		// Arrange
 		var sessionId = Guid.NewGuid();
-		_mockSessionRepository.Setup(repo => repo.EndGame(sessionId)).Returns(Task.CompletedTask);
-		_mockResultRepository.Setup(repo => repo.AddGameResult(sessionId, 1, true)).Returns(Task.CompletedTask);
+		_mockResultRepository.Setup(repo => repo.AddGameResultAndEndSessionAsync(sessionId, 1, true));
 
 		// Act
 		var result = await _gameLogicProcessor.GameFinished(GameConstants.SecretNumberLength, 1, sessionId);
 
 		// Assert
 		Assert.That(result, Is.True);
-		_mockSessionRepository.Verify(repo => repo.EndGame(sessionId), Times.Once);
-		_mockResultRepository.Verify(repo => repo.AddGameResult(sessionId, 1, true), Times.Once);
+		_mockResultRepository.Verify(repo => repo.AddGameResultAndEndSessionAsync(sessionId, 1, true), Times.Once);
 	}
 
 	[Test]
@@ -70,16 +51,14 @@ public class GameLogicProcessorTests
 	{
 		// Arrange
 		var sessionId = Guid.NewGuid();
-		_mockSessionRepository.Setup(repo => repo.EndGame(sessionId)).Returns(Task.CompletedTask);
-		_mockResultRepository.Setup(repo => repo.AddGameResult(sessionId, GameConstants.MaxAttempts, false)).Returns(Task.CompletedTask);
+		_mockResultRepository.Setup(repo => repo.AddGameResultAndEndSessionAsync(sessionId, GameConstants.MaxAttempts, false));
 
 		// Act
 		var result = await _gameLogicProcessor.GameFinished(0, GameConstants.MaxAttempts, sessionId);
 
 		// Assert
 		Assert.That(result, Is.True);
-		_mockSessionRepository.Verify(repo => repo.EndGame(sessionId), Times.Once);
-		_mockResultRepository.Verify(repo => repo.AddGameResult(sessionId, GameConstants.MaxAttempts, false), Times.Once);
+		_mockResultRepository.Verify(repo => repo.AddGameResultAndEndSessionAsync(sessionId, GameConstants.MaxAttempts, false), Times.Once);
 	}
 
 	[Test]
@@ -93,7 +72,6 @@ public class GameLogicProcessorTests
 
 		// Assert
 		Assert.That(result, Is.False);
-		_mockSessionRepository.Verify(repo => repo.EndGame(It.IsAny<Guid>()), Times.Never);
-		_mockResultRepository.Verify(repo => repo.AddGameResult(It.IsAny<Guid>(), It.IsAny<int>(), It.IsAny<bool>()), Times.Never);
+		_mockResultRepository.Verify(repo => repo.AddGameResultAndEndSessionAsync(It.IsAny<Guid>(), It.IsAny<int>(), It.IsAny<bool>()), Times.Never);
 	}
 }

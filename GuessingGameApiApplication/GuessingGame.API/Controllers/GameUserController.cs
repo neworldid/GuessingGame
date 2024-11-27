@@ -13,10 +13,11 @@ public class GameUserController(IGameUserService gameUserService) : ControllerBa
 	{
 		var result = await gameUserService.LoginUser(request.Email, request.Password);
 
-		if (result == 0)
+		if (!result)
 		{
-			return BadRequest("Invalid email or password.");
+			return BadRequest(new {message = "Invalid email or password."});
 		}
+		
 		return Ok();
 
 	}
@@ -25,13 +26,12 @@ public class GameUserController(IGameUserService gameUserService) : ControllerBa
 	public async Task<IActionResult> Register([FromBody] UserRegisterRequest request)
 	{
 		var result = await gameUserService.RegisterUser(request.Username, request.Email, request.Password);
-		
-		if (result == 0)
-		{
-			return BadRequest("User already exists.");
-		}
-		
-		return Ok();
 
+		return result switch
+		{
+			1 => Ok(),
+			0 => BadRequest("User already exists."),
+			_ => BadRequest("Failed to register user.")
+		};
 	}
 }

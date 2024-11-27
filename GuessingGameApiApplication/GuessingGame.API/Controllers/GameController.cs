@@ -50,16 +50,16 @@ public class GameController(
 	}
 	
 	/// <summary>
-	/// Retrieves the details of a game session by its session ID.
+	/// Retrieves the details of a game result by its result ID.
 	/// </summary>
-	/// <param name="sessionId">The unique identifier of the game session.</param>
-	/// <returns>An <see cref="IActionResult"/> containing the game session details if found.</returns>
-	/// <response code="200">The game session details were successfully retrieved.</response>
-	/// <response code="404">The game session was not found.</response>
-	[HttpGet("GetGameDetails/{sessionId:Guid}")]
-	public async Task<IActionResult> GetGameDetails(Guid sessionId)
+	/// <param name="sessionId">The unique identifier of the game result.</param>
+	/// <returns>An <see cref="IActionResult"/> containing the game result details if found.</returns>
+	/// <response code="200">The game result details were successfully retrieved.</response>
+	/// <response code="404">The game result was not found.</response>
+	[HttpGet("GetResultDetailsBySessionId/{sessionId:Guid}")]
+	public async Task<IActionResult> GetResultDetailsBySessionId(Guid sessionId)
 	{
-		var game = await gameSessionService.GetGameDetails(sessionId);
+		var game = await gameResultService.GetGameDetailsBySessionId(sessionId);
 
 		if (game == null)
 			return NotFound();

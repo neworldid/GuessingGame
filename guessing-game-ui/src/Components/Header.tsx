@@ -9,9 +9,10 @@ import {
 	XMarkIcon,
 } from '@heroicons/react/24/outline'
 import AuthModal from "Modals/Auth/AuthModal.tsx";
-import {useAuthContext} from "Hooks/AuthStateContext.ts";
+import {useAuthContext} from "Hooks/AuthStateProvider.tsx";
 import {ADMIN_PAGE_VIEW, HOME_PAGE_VIEW, LEADERBOARD_PAGE_VIEW} from "Constants/ViewNames.ts";
 import {GoogleOAuthProvider} from "@react-oauth/google";
+import {FormStateProvider} from "Hooks/FormStateProvider.tsx";
 
 export default function Header() {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -23,7 +24,9 @@ export default function Header() {
 	return (
 		<header className="bg-white">
 			<GoogleOAuthProvider clientId={googleclientid}>
-				<AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
+				<FormStateProvider>
+					<AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
+				</FormStateProvider>
 			</GoogleOAuthProvider>
 			<nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
 				<div className="flex lg:flex-1">
@@ -44,7 +47,7 @@ export default function Header() {
 				</div>
 				<PopoverGroup className="hidden lg:flex lg:gap-x-12">
 					<a href={HOME_PAGE_VIEW} className="text-sm font-semibold leading-6 text-gray-900">
-						Game rules
+						Game
 					</a>
 					<a href={LEADERBOARD_PAGE_VIEW} className="text-sm font-semibold leading-6 text-gray-900">
 						Leaderboard
@@ -94,7 +97,7 @@ export default function Header() {
 							<div className="space-y-2 py-6">
 								<a href={HOME_PAGE_VIEW}
 								   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-									Game rules
+									Game
 								</a>
 								<a href={LEADERBOARD_PAGE_VIEW}
 								   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">

@@ -10,7 +10,7 @@ function App() {
 	return (
 		<>
 			<AuthStateProvider>
-			<Header />
+				<Header />
 				<div className="container mx-auto max-w-7xl p-6 lg:px-8">
 					<Routes>
 						<Route path="/" element={<Home/>}/>

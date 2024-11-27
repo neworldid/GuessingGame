@@ -1,9 +1,9 @@
 ﻿using GuessingGame.Domain.Abstractions.Repositories;
 using GuessingGame.Domain.Models;
-using GuessingGame.Infrastructure.Entities;
+using GuessingGame.Infrastructure.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace GuessingGame.Infrastructure.Repositories;
+namespace GuessingGame.Infrastructure.Database.Repositories;
 
 public class GameUserRepository(GuessingGameDbContext context) : IGameUserRepository
 {

@@ -5,29 +5,43 @@ namespace GuessingGame.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class GameAdminController(IGameResultRepository gameResultRepository) : ControllerBase
+public class GameAdminController(IGameAttemptRepository attemptRepository, IGameSessionRepository sessionRepository) : ControllerBase
 {
-	/// <summary>
-	/// Deletes a game result by its ID.
-	/// </summary>
-	/// <param name="resultId">The unique identifier of the game result to delete.</param>
-	/// <returns>An <see cref="IActionResult"/> indicating the result of the operation.</returns>
-	/// <response code="200">The game result was successfully deleted.</response>
-	/// <response code="404">The game result was not found or an error occurred during deletion.</response>
-	[HttpDelete("DeleteResult/{resultId:int}")]
-	public async Task<IActionResult> DeleteResult(int resultId)
+	[HttpGet("GetAllSessions")]
+	public async Task<IActionResult> GetAllSessions()
 	{
 		try
 		{
-			var result = await gameResultRepository.DeleteGameResult(resultId);
-			if (result > 0)
-				return Ok();
+			var results = await sessionRepository.GetAllGameSessions();
+			return Ok(results);
+		}
+		catch (Exception e)
+		{
+			return BadRequest();
+		}
+	}
+	
+	[HttpGet("GetGameSessionAttempts/{gameSessionId:Guid}")]
+	public async Task<IActionResult> GetGameSessionAttempts(Guid gameSessionId)
+	{
+		try
+		{
+			var result = await attemptRepository.GetAttempts(gameSessionId);
+			return Ok(result);
 		}
 		catch
 		{
-			return NotFound();
+			return BadRequest();
 		}
+	}
+	
+	[HttpDelete("DeleteGameSessionData/{gameSessionId:Guid}")]
+	public async Task<IActionResult> DeleteGameSessionData(Guid gameSessionId)
+	{
+		var result = await sessionRepository.DeleteSessionsAsync(gameSessionId);
+		if (result)
+			return Ok();
 		
-		return NotFound();
+		return BadRequest();
 	}
 }

@@ -25,7 +25,6 @@ public class GameResultServiceTests
 		{
 			new()
 			{
-				GameResultId = 1,
 				PlayerName = "Player1",
 				SecretNumber = "1234",
 				AttemptCount = 5,
@@ -42,7 +41,6 @@ public class GameResultServiceTests
 		// Assert
 		Assert.That(result, Is.Not.Null);
 		var firstResult = result.First();
-		Assert.That(firstResult.Id, Is.EqualTo(1));
 		Assert.That(firstResult.PlayerName, Is.EqualTo("Player1"));
 		Assert.That(firstResult.SecretNumber, Is.EqualTo("1234"));
 		Assert.That(firstResult.AttemptCount, Is.EqualTo(5));
@@ -61,6 +59,49 @@ public class GameResultServiceTests
 
 		// Assert
 		_mockGameResultRepository.Verify(repo => repo.GetGameResults(), Times.Once);
+		Assert.That(result, Is.Null);
+	}
+
+	[Test]
+	public async Task GetGameDetails_ShouldReturnGameResultResponse_WhenGameExists()
+	{
+		// Arrange
+		var game = new GameDetailsModel
+		{
+			SecretNumber = "1234",
+			AttemptCount = 5,
+			StartTime = DateTime.Now,
+			Won = true
+		};
+		game.EndTime = game.StartTime.AddMinutes(5);
+		
+		var guid = Guid.NewGuid();
+		_mockGameResultRepository.Setup(repo => repo.GetResultDetailsBySessionId(guid)).ReturnsAsync(game);
+
+		// Act
+		var result = await _gameResultService.GetGameDetailsBySessionId(guid);
+
+		// Assert
+		_mockGameResultRepository.Verify(repo => repo.GetResultDetailsBySessionId(guid), Times.Once);
+		Assert.That(result, Is.Not.Null);
+		Assert.That(result.SecretNumber, Is.EqualTo("1234"));
+		Assert.That(result.AttemptCount, Is.EqualTo(5));
+		Assert.That(result.Duration, Is.EqualTo("05:00"));
+		Assert.That(result.Won, Is.EqualTo(true));
+	}
+
+	[Test]
+	public async Task GetGameDetails_ShouldReturnNull_WhenExceptionIsThrown()
+	{
+		// Arrange
+		var guid = Guid.NewGuid();
+		_mockGameResultRepository.Setup(repo => repo.GetResultDetailsBySessionId(guid)).Throws(new Exception());
+
+		// Act
+		var result = await _gameResultService.GetGameDetailsBySessionId(guid);
+
+		// Assert
+		_mockGameResultRepository.Verify(repo => repo.GetResultDetailsBySessionId(guid), Times.Once);
 		Assert.That(result, Is.Null);
 	}
 }

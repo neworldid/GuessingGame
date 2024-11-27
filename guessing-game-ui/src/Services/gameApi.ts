@@ -6,10 +6,6 @@ export interface AttemptRequest {
 	SessionId: string;
 }
 
-export interface GameDetailRequest {
-	SessionId: string;
-}
-
 const baseUrl = import.meta.env.VITE_REACT_APP_API_BASE_URL;
 
 export const startGame = async (gameRequest: GameRequest)=> {
@@ -32,8 +28,8 @@ export const processAttempt = async (attemptRequest: AttemptRequest)=> {
 	});
 }
 
-export const getGameDetails = async (detailRequest: GameDetailRequest)=> {
-	return await fetch(`${baseUrl}/Game/GetGameDetails/` + detailRequest.SessionId, {
+export const getResultDetailsBySessionId = async (sessionId: string)=> {
+	return await fetch(`${baseUrl}/Game/GetResultDetailsBySessionId/` + sessionId, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',

@@ -12,5 +12,6 @@ public record UserRegisterRequest
 	public string Email { get; init; }
 	
 	[Required]
+	[MinLength(5)]
 	public string Password { get; init; }
 }

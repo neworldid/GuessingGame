@@ -5,7 +5,6 @@ namespace GuessingGame.API.Contracts;
 public record UserLoginRequest
 {
 	[Required]
-	[EmailAddress]
 	public string Email { get; init; }
 	
 	[Required]

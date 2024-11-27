@@ -2,7 +2,6 @@
 
 public class GameDetailsModel
 {
-	public int GameResultId { get; set; }
 	public string PlayerName { get; set; } = string.Empty;
 	
 	public string SecretNumber { get; set; } = string.Empty;

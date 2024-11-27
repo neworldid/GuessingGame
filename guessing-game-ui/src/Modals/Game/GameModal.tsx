@@ -4,7 +4,7 @@ import GameProcessContent from "./GameProcessContent.tsx";
 import GameStartContent from "./GameStartContent.tsx";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import GameFinishContent from "./GameFinishContent.tsx";
-import {useGameContext} from "Hooks/GameStateContext.ts";
+import {useGameContext} from "Hooks/GameStateProvider.tsx";
 import { GAME_START_VIEW, GAME_PROCESS_VIEW, GAME_FINISH_VIEW } from "src/Constants/ViewNames.ts";
 
 const googleclientid = import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID;
