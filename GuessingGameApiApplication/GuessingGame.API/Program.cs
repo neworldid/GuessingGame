@@ -1,6 +1,8 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using GuessingGame.API;
+using GuessingGame.API.Extensions;
+using GuessingGame.Infrastructure.Authentication;
 using GuessingGame.Infrastructure.BackgroundServices;
 using GuessingGame.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
@@ -13,13 +15,16 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 });
 
 var services = builder.Services;
-
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
+var configuration = builder.Configuration;
+services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
+services.AddApiAuthentication(configuration);
+
 services.AddDbContext<GuessingGameDbContext>(options =>
-	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+	options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 services.AddHostedService<SessionCleanupService>();
 
 services.AddCors(options =>
@@ -43,7 +48,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

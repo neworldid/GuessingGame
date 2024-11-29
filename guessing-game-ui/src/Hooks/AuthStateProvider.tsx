@@ -1,4 +1,4 @@
-﻿import {createContext, ReactNode, useContext, useEffect, useState} from "react";
+﻿import {createContext, ReactNode, useContext, useState} from "react";
 import {AUTH_LOGIN_VIEW} from "Constants/ViewNames.ts";
 import Cookies from "js-cookie";
 
@@ -18,13 +18,9 @@ export const AuthStateProvider = ({ children }: AuthStateProvider) => {
 	const [currentView, setCurrentView] = useState(AUTH_LOGIN_VIEW);
 	const [loading, setLoading] = useState(false);
 	const [isAdmin, setIsAdmin] = useState(() => {
-		const cookieValue = Cookies.get('isAdmin');
-		return cookieValue === 'true';
+		const cookieValue = Cookies.get('user-token');
+		return cookieValue !== undefined && cookieValue !== '';
 	});
-
-	useEffect(() => {
-		Cookies.set('isAdmin', isAdmin.toString());
-	}, [isAdmin]);
 	
 	return (
 		<AuthStateContext.Provider

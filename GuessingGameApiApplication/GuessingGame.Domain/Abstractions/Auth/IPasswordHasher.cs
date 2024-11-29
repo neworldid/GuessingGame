@@ -1,4 +1,4 @@
-﻿namespace GuessingGame.Domain.Abstractions;
+﻿namespace GuessingGame.Domain.Abstractions.Auth;
 
 public interface IPasswordHasher
 {

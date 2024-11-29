@@ -1,4 +1,4 @@
-﻿using GuessingGame.Domain.Abstractions;
+﻿using GuessingGame.Domain.Abstractions.Auth;
 
 namespace GuessingGame.Infrastructure.Authentication;
 

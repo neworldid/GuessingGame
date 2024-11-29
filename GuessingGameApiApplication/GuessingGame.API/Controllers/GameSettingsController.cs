@@ -1,9 +1,11 @@
 ﻿using GuessingGame.API.Contracts;
 using GuessingGame.Domain.Abstractions.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GuessingGame.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GameSettingsController(IGameSettingRepository settingRepository) : ControllerBase

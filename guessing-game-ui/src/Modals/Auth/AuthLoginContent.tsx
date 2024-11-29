@@ -1,8 +1,9 @@
 ﻿import {useAuthContext} from "Hooks/AuthStateProvider.tsx";
-import {AUTH_REGISTER_VIEW} from "Constants/ViewNames.ts";
+import {ADMIN_PAGE_VIEW, AUTH_REGISTER_VIEW} from "Constants/ViewNames.ts";
 import {login, LoginAccountData} from "Services/gameUserApi.ts";
 import {useState} from "react";
 import {useFormContext} from "Hooks/FormStateProvider.tsx";
+import Cookies from "js-cookie";
 
 interface SpecificModalProps {
 	handleClose: () => void;
@@ -10,9 +11,7 @@ interface SpecificModalProps {
 
 export default function AuthLoginContent({ handleClose }: SpecificModalProps) {
 	const [loginErrorMessage, setLoginErrorMessage] = useState<string>('');
-	const {
-		setIsAdmin,
-		setCurrentView} = useAuthContext();
+	const {setCurrentView} = useAuthContext();
 	const {email, setEmail} = useFormContext();
 	const [password, setPassword] = useState('');
 
@@ -24,13 +23,15 @@ export default function AuthLoginContent({ handleClose }: SpecificModalProps) {
 			return;
 		}
 		const response = await login(loginData);
+		const responseData = await response.json();
 		if (!response.ok){
-			const responseData = await response.json();
 			setLoginErrorMessage(responseData.message);
 			return
 		}
 		handleClose();
-		setIsAdmin(true);
+		Cookies.set('user-token', responseData.token);
+		window.location.href = ADMIN_PAGE_VIEW;
+
 	};
 	
 	return (

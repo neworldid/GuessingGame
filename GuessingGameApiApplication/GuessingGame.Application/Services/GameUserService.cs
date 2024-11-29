@@ -1,21 +1,29 @@
-﻿using GuessingGame.Domain.Abstractions;
+﻿using GuessingGame.Domain.Abstractions.Auth;
 using GuessingGame.Domain.Abstractions.Repositories;
 using GuessingGame.Domain.Abstractions.Services;
 
 namespace GuessingGame.Application.Services;
 
-public class GameUserService(IGameUserRepository gameUserRepository, IPasswordHasher passwordHasher) : IGameUserService
+public class GameUserService(
+	IGameUserRepository gameUserRepository, 
+	IPasswordHasher passwordHasher, 
+	IJwtProvider jwtProvider) : IGameUserService
 {
-	public async Task<bool> LoginUser(string email, string password)
+	public async Task<string?> LoginUser(string email, string password)
 	{
 		try
 		{
 			var user = await gameUserRepository.GetUserByEmail(email);
-			return passwordHasher.Verify(password, user.Password);
+			var result = passwordHasher.Verify(password, user.Password);
+			if (result == false)
+			{
+				throw new Exception("Failed to login");
+			}
+			return jwtProvider.GenerateToken(user);
 		}
 		catch
 		{
-			return false;
+			return null;
 		}
 	}
 

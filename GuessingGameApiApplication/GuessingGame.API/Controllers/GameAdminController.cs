@@ -1,8 +1,10 @@
 ﻿using GuessingGame.Domain.Abstractions.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GuessingGame.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GameAdminController(IGameAttemptRepository attemptRepository, IGameSessionRepository sessionRepository) : ControllerBase

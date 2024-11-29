@@ -11,14 +11,14 @@ public class GameUserController(IGameUserService gameUserService) : ControllerBa
 	[HttpPost("Login")]
 	public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
 	{
-		var result = await gameUserService.LoginUser(request.Email, request.Password);
+		var token = await gameUserService.LoginUser(request.Email, request.Password);
 
-		if (!result)
+		if (token is null)
 		{
 			return BadRequest(new {message = "Invalid email or password."});
 		}
 		
-		return Ok();
+		return Ok(new { token});
 
 	}
 	

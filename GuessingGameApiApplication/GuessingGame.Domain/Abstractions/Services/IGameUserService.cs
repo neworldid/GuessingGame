@@ -2,6 +2,6 @@
 
 public interface IGameUserService
 {
-	Task<bool> LoginUser(string email, string password);
+	Task<string?> LoginUser(string email, string password);
 	Task<int> RegisterUser(string username, string email, string password);
 }

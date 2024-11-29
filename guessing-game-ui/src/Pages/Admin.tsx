@@ -1,6 +1,7 @@
 ﻿import {useEffect, useState} from "react";
 import GameSessionsGrid from "Components/GameSessionsGrid.tsx";
 import {getGameSetting, updateGameSetting} from "Services/gameSettingsApi.ts";
+import {SettingsEnum} from "Constants/SettingsEnum.ts";
 
 export default function Admin() {
 	const [autoCleanEnabled, setAutoCleanEnabled] = useState(false);
@@ -8,7 +9,7 @@ export default function Admin() {
 	useEffect(() => {
 		const fetchSetting = async () => {
 			try {
-				const response = await getGameSetting(1);
+				const response = await getGameSetting(SettingsEnum.AutoCleanSettingId);
 				const data = await response.json();
 				setAutoCleanEnabled(data);
 			} catch (error) {
@@ -22,7 +23,7 @@ export default function Admin() {
 		const newSetting = !autoCleanEnabled;
 		setAutoCleanEnabled(newSetting);
 		try {
-			await updateGameSetting({ Id: 1, IsEnabled: newSetting });
+			await updateGameSetting({ Id: SettingsEnum.AutoCleanSettingId, IsEnabled: newSetting });
 		} catch (error) {
 			console.error("Failed to update game setting:", error);
 		}

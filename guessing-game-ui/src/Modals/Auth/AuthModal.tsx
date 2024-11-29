@@ -2,7 +2,7 @@
 import {TokenResponse, useGoogleLogin} from "@react-oauth/google";
 import Modal from "Modals/Modal.tsx";
 import {useAuthContext} from "Hooks/AuthStateProvider.tsx";
-import {AUTH_LOGIN_VIEW, AUTH_REGISTER_VIEW} from "Constants/ViewNames.ts";
+import {ADMIN_PAGE_VIEW, AUTH_LOGIN_VIEW, AUTH_REGISTER_VIEW} from "Constants/ViewNames.ts";
 import AuthLoginContent from "Modals/Auth/AuthLoginContent.tsx";
 import AuthRegisterContent from "Modals/Auth/AuthRegisterContent.tsx";
 import {UserIcon} from "@heroicons/react/24/outline";
@@ -10,6 +10,7 @@ import React from "react";
 import {getGoogleAccountData} from "Services/googleAuth.ts";
 import {login, LoginAccountData} from "Services/gameUserApi.ts";
 import {useFormContext} from "Hooks/FormStateProvider.tsx";
+import Cookies from "js-cookie";
 
 
 interface SpecificModalProps {
@@ -18,7 +19,7 @@ interface SpecificModalProps {
 }
 
 export default function AuthModal({ isOpen, onClose }: SpecificModalProps) {
-	const {currentView, setIsAdmin} = useAuthContext();
+	const {currentView} = useAuthContext();
 	const {setUserName, setEmail, setIsGoogleData, setRegisterPassword, resetFormContext} = useFormContext();
 
 	const handleClose = () => {
@@ -41,7 +42,9 @@ export default function AuthModal({ isOpen, onClose }: SpecificModalProps) {
 					return
 				}
 				handleClose();
-				setIsAdmin(true);
+				const responseData = await response.json();
+				Cookies.set('user-token', responseData.token);
+				window.location.href = ADMIN_PAGE_VIEW;
 			} else {
 				setUserName(data.name);
 				setEmail(data.email);

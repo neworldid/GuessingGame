@@ -13,11 +13,18 @@ import {useAuthContext} from "Hooks/AuthStateProvider.tsx";
 import {ADMIN_PAGE_VIEW, HOME_PAGE_VIEW, LEADERBOARD_PAGE_VIEW} from "Constants/ViewNames.ts";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import {FormStateProvider} from "Hooks/FormStateProvider.tsx";
+import Cookies from "js-cookie";
 
 export default function Header() {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const {isAdmin, setIsAdmin} = useAuthContext();
+	const {isAdmin} = useAuthContext();
+	
+	const handleLogout = () => {
+		Cookies.set('user-token', '');
+		window.location.href = HOME_PAGE_VIEW;
+	}
+	
 	const googleclientid = import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID;
 
 
@@ -60,7 +67,7 @@ export default function Header() {
 				</PopoverGroup>
 				<div className="hidden lg:flex lg:flex-1 lg:justify-end hover:cursor-pointer">
 					{isAdmin ? (
-						<a onClick={() => setIsAdmin(false)} className="text-sm font-semibold leading-6 text-gray-900">
+						<a onClick={handleLogout} className="text-sm font-semibold leading-6 text-gray-900">
 							Log out
 						</a>
 					) : (
@@ -112,7 +119,7 @@ export default function Header() {
 							</div>
 							<div className="py-6">
 								{isAdmin ? (
-									<a href="#" onClick={() => setIsAdmin(false)} className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+									<a href="#" onClick={handleLogout} className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
 										Log out
 									</a>
 								) : (
