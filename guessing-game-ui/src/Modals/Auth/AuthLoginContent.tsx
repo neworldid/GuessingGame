@@ -10,9 +10,8 @@ interface SpecificModalProps {
 }
 
 export default function AuthLoginContent({ handleClose }: SpecificModalProps) {
-	const [loginErrorMessage, setLoginErrorMessage] = useState<string>('');
 	const {setCurrentView} = useAuthContext();
-	const {email, setEmail} = useFormContext();
+	const {email, setEmail, loginErrorMessage, setLoginErrorMessage} = useFormContext();
 	const [password, setPassword] = useState('');
 
 

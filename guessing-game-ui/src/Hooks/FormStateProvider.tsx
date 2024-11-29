@@ -9,10 +9,12 @@ interface FormState {
 	email: string;
 	registerPassword: string;
 	isGoogleData: boolean;
+	loginErrorMessage: string;
 	setUserName: (name: string) => void;
 	setEmail: (email: string) => void;
 	setRegisterPassword: (password: string) => void;
 	setIsGoogleData: (isGoogleData: boolean) => void;
+	setLoginErrorMessage: (message: string) => void;
 	resetFormContext: () => void;
 }
 
@@ -21,6 +23,7 @@ export const FormStateProvider = ({ children }: FormStateProvider) => {
 	const [userName, setUserName] = useState('');
 	const [email, setEmail] = useState('');
 	const [registerPassword, setRegisterPassword] = useState('');
+	const [loginErrorMessage, setLoginErrorMessage] = useState<string>('');
 
 	const resetFormContext = () => {
 		setIsGoogleData(false);
@@ -40,6 +43,8 @@ export const FormStateProvider = ({ children }: FormStateProvider) => {
 				setEmail,
 				registerPassword,
 				setRegisterPassword,
+				loginErrorMessage,
+				setLoginErrorMessage,
 				resetFormContext
 			}}
 		>

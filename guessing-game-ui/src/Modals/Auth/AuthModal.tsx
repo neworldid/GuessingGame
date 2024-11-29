@@ -20,7 +20,7 @@ interface SpecificModalProps {
 
 export default function AuthModal({ isOpen, onClose }: SpecificModalProps) {
 	const {currentView} = useAuthContext();
-	const {setUserName, setEmail, setIsGoogleData, setRegisterPassword, resetFormContext} = useFormContext();
+	const {setUserName, setEmail, setIsGoogleData, setRegisterPassword, resetFormContext, setLoginErrorMessage} = useFormContext();
 
 	const handleClose = () => {
 		resetFormContext();
@@ -39,6 +39,7 @@ export default function AuthModal({ isOpen, onClose }: SpecificModalProps) {
 				const response = await login(loginData);
 				if (!response.ok){
 					setEmail(data.email);
+					setLoginErrorMessage("Invalid email or password");
 					return
 				}
 				handleClose();

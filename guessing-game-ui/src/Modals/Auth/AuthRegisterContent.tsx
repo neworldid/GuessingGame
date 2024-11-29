@@ -13,7 +13,8 @@ export default function AuthRegisterContent() {
 		setEmail,
 		registerPassword,
 		setRegisterPassword,
-		isGoogleData} = useFormContext();
+		isGoogleData,
+		resetFormContext} = useFormContext();
 
 
 	const handleRegister = async () => {
@@ -29,6 +30,7 @@ export default function AuthRegisterContent() {
 			setErrorMessage(Object.values(responseData.errors).flat().join('\n'));
 			return
 		}
+		resetFormContext();
 		setCurrentView(AUTH_LOGIN_VIEW);
 	};
 
