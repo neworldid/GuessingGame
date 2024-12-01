@@ -1,9 +1,9 @@
-﻿using Moq;
-using GuessingGame.Application.Services;
+﻿using GuessingGame.Application.Services;
 using GuessingGame.Domain.Abstractions.Repositories;
 using GuessingGame.Domain.Models;
+using Moq;
 
-namespace GuessingGame.UnitTests;
+namespace GuessingGame.UnitTests.Services;
 
 public class GameResultServiceTests
 {

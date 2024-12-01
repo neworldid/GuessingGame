@@ -1,9 +1,9 @@
 ﻿using GuessingGame.Application.Processors;
-using Moq;
 using GuessingGame.Domain.Abstractions.Repositories;
 using GuessingGame.Domain.Constants;
+using Moq;
 
-namespace GuessingGame.UnitTests;
+namespace GuessingGame.UnitTests.Processors;
 
 public class GameLogicProcessorTests
 {
@@ -32,33 +32,33 @@ public class GameLogicProcessorTests
 	}
 
 	[Test]
-	public async Task GameFinished_ShouldReturnTrue_WhenAllMatchesAreCorrect()
-	{
-		// Arrange
-		var sessionId = Guid.NewGuid();
-		_mockResultRepository.Setup(repo => repo.AddGameResultAndEndSessionAsync(sessionId, 1, true));
-
-		// Act
-		var result = await _gameLogicProcessor.GameFinished(GameConstants.SecretNumberLength, 1, sessionId);
-
-		// Assert
-		Assert.That(result, Is.True);
-		_mockResultRepository.Verify(repo => repo.AddGameResultAndEndSessionAsync(sessionId, 1, true), Times.Once);
-	}
-
-	[Test]
 	public async Task GameFinished_ShouldReturnTrue_WhenMaxAttemptsReached()
 	{
 		// Arrange
 		var sessionId = Guid.NewGuid();
-		_mockResultRepository.Setup(repo => repo.AddGameResultAndEndSessionAsync(sessionId, GameConstants.MaxAttempts, false));
+		_mockResultRepository.Setup(repo => repo.AddGameResultAndEndSessionAsync(sessionId, GameConstants.MaxAttempts, false)).ReturnsAsync(true);
 
 		// Act
-		var result = await _gameLogicProcessor.GameFinished(0, GameConstants.MaxAttempts, sessionId);
+		var result = await _gameLogicProcessor.GameFinished(2, GameConstants.MaxAttempts, sessionId);
 
 		// Assert
 		Assert.That(result, Is.True);
 		_mockResultRepository.Verify(repo => repo.AddGameResultAndEndSessionAsync(sessionId, GameConstants.MaxAttempts, false), Times.Once);
+	}
+
+	[Test]
+	public async Task GameFinished_ShouldReturnFalse_WhenGameFinishQueryReturnedFalse()
+	{
+		// Arrange
+		var sessionId = Guid.NewGuid();
+		_mockResultRepository.Setup(repo => repo.AddGameResultAndEndSessionAsync(sessionId, GameConstants.MaxAttempts, true)).ReturnsAsync(false);
+
+		// Act
+		var result = await _gameLogicProcessor.GameFinished(GameConstants.SecretNumberLength, GameConstants.MaxAttempts, sessionId);
+
+		// Assert
+		Assert.That(result, Is.False);
+		_mockResultRepository.Verify(repo => repo.AddGameResultAndEndSessionAsync(sessionId, GameConstants.MaxAttempts, true), Times.Once);
 	}
 
 	[Test]

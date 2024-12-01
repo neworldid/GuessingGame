@@ -31,16 +31,16 @@ public class GameSessionRepository(GuessingGameDbContext context) : IGameSession
 			.FirstOrDefaultAsync();
 	}
 
-	public async Task<IEnumerable<GameSessionDetails>> GetAllGameSessions()
+	public async Task<IEnumerable<GameDetailsModel>> GetAllGameSessions()
 	{
 		var gameSessions = await context.GameSessions
 			.AsNoTracking()
 			.Include(gameSession => gameSession.GameAttempts)
 			.ToListAsync();
 
-		var gameSessionDetails = gameSessions.Select(gameSession => new GameSessionDetails
+		var gameSessionDetails = gameSessions.Select(gameSession => new GameDetailsModel
 		{
-			Id = gameSession.Id,
+			SessionId = gameSession.Id,
 			PlayerName = gameSession.PlayerName,
 			StartTime = gameSession.StartTime,
 			EndTime = gameSession.EndTime,

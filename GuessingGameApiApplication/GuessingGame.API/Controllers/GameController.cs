@@ -50,7 +50,7 @@ public class GameController(
 	}
 	
 	/// <summary>
-	/// Retrieves the details of a game result by its result ID.
+	/// Retrieves the details of a game result by game session ID.
 	/// </summary>
 	/// <param name="sessionId">The unique identifier of the game result.</param>
 	/// <returns>An <see cref="IActionResult"/> containing the game result details if found.</returns>

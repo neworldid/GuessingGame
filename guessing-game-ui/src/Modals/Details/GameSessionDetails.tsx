@@ -16,11 +16,11 @@ export default function GameSessionDetails({ session, isOpen, onClose }: Specifi
 			if (isOpen) {
 				const fetchAttempts = async () => {
 					try {
-						const response = await getGameSessionAttempts(session.id);
+						const response = await getGameSessionAttempts(session.sessionId);
 						const data = await response.json();
 						setAttempts(data);
 					} catch (error) {
-						console.error('Failed to fetch sessions:', error);
+						console.error('Failed to fetch attempts:', error);
 					}
 				};
 				fetchAttempts();

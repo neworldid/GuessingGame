@@ -8,7 +8,7 @@ public interface IGameSessionRepository
 	
 	Task<string?> GetSecretNumber(Guid sessionId);
 	
-	Task<IEnumerable<GameSessionDetails>> GetAllGameSessions();
+	Task<IEnumerable<GameDetailsModel>> GetAllGameSessions();
 	
 	Task<bool> DeleteSessionsAsync(Guid sessionId);
 }

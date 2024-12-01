@@ -15,11 +15,7 @@ public class GameUserService(
 		{
 			var user = await gameUserRepository.GetUserByEmail(email);
 			var result = passwordHasher.Verify(password, user.Password);
-			if (result == false)
-			{
-				throw new Exception("Failed to login");
-			}
-			return jwtProvider.GenerateToken(user);
+			return result == false ? null : jwtProvider.GenerateToken(user);
 		}
 		catch
 		{

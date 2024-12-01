@@ -11,7 +11,7 @@ public class SessionCleanupProcessor(IGameSessionRepository sessionRepository) :
 		var sessionsToDelete = allGameSessions
 			.Where(x => x.StartTime < DateTime.Now.AddDays(-2) &&
 			            (x.EndTime == null || x.Won == false))
-			.Select(x => x.Id)
+			.Select(x => x.SessionId)
 			.ToList();
 
 		foreach (var sessionId in sessionsToDelete)

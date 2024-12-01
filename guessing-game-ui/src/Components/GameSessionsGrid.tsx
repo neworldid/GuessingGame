@@ -71,7 +71,7 @@ export default function GameSessionsGrid() {
 						<td className="px-4 py-2 border-b text-center">
 							<button onClick={(e) => {
 								e.stopPropagation();
-								handleDelete(index, session.id)
+								handleDelete(index, session.sessionId)
 							}}
 									className="text-red-500 hover:text-red-700">
 								<FaTrash/>

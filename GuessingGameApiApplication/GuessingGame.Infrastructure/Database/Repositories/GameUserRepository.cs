@@ -23,17 +23,6 @@ public class GameUserRepository(GuessingGameDbContext context) : IGameUserReposi
 	public async Task<GameUserModel?> GetUserByEmail(string email)
 	{
 		var user = await context.Users.FirstOrDefaultAsync(x => x.Email == email);
-		if (user == null)
-		{
-			return null;
-		}
-		
-		return new GameUserModel
-		{
-			Id = user.Id,
-			Username = user.Username,
-			Email = user.Email,
-			Password = user.Password
-		};
+		return user == null ? null : new GameUserModel(user.Id, user.Username, user.Password, user.Email);
 	}
 }

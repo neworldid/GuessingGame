@@ -17,7 +17,12 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 var services = builder.Services;
 services.AddControllers();
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
+services.AddSwaggerGen(c =>
+{
+	var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+	var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+	c.IncludeXmlComments(xmlPath);
+});
 
 var configuration = builder.Configuration;
 services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));

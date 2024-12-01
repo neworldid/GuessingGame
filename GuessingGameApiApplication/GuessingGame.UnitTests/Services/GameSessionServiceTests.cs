@@ -1,11 +1,9 @@
 ﻿using GuessingGame.Application.Services;
 using Moq;
-using GuessingGame.Domain.Abstractions;
-using GuessingGame.Domain.Abstractions.Processors;
 using GuessingGame.Domain.Abstractions.Repositories;
-using GuessingGame.Domain.Models;
+using GuessingGame.Domain.Constants;
 
-namespace GuessingGame.UnitTests;
+namespace GuessingGame.UnitTests.Services;
 
 public class GameSessionServiceTests
 {
@@ -24,13 +22,15 @@ public class GameSessionServiceTests
 	{
 		// Arrange
 		var guid = new Guid("d2719b1e-1c4b-4b8e-8b1e-1c4b4b8e8b1e");
-		_mockSessionRepository.Setup(repo => repo.AddGameSession("Player1", "1234")).ReturnsAsync(guid);
+		_mockSessionRepository.Setup(repo => repo.AddGameSession("Player1", It.Is<string>(x => 
+			x.Length == GameConstants.SecretNumberLength && x.All(char.IsDigit) == true))).ReturnsAsync(guid);
 
 		// Act
 		var result = await _gameSessionService.StartNewGame("Player1");
 
 		// Assert
-		_mockSessionRepository.Verify(repo => repo.AddGameSession("Player1", "1234"), Times.Once);
+		_mockSessionRepository.Verify(repo => repo.AddGameSession("Player1", It.Is<string>(x => 
+			x.Length == GameConstants.SecretNumberLength && x.All(char.IsDigit) == true)), Times.Once);
 		Assert.That(result, Is.Not.Null);
 		Assert.That(result, Is.EqualTo(guid));
 	}
@@ -39,24 +39,13 @@ public class GameSessionServiceTests
 	public async Task StartNewGame_ShouldReturnNull_WhenExceptionIsThrown()
 	{
 		// Arrange
-
+		_mockSessionRepository.Setup(repo => repo.AddGameSession("Player1", It.Is<string>(x => 
+			x.Length == GameConstants.SecretNumberLength && x.All(char.IsDigit) == true))).ThrowsAsync(new Exception());
+		
 		// Act
 		var result = await _gameSessionService.StartNewGame("Player1");
 
 		// Assert
 		Assert.That(result, Is.Null);
 	}
-	
-	/*[Test]
-	public void GenerateUniqueFourDigitNumber_ShouldReturnUniqueFourDigitNumber()
-	{
-		// Act
-		var result = _gameLogicProcessor.GenerateUniqueFourDigitNumber();
-
-		// Assert
-		Assert.That(result, Is.Not.Null);
-		Assert.That(result, Has.Length.EqualTo(4));
-		Assert.That(int.TryParse(result, out _), Is.True);
-		Assert.That(new HashSet<char>(result), Has.Count.EqualTo(4));
-	}*/
 }

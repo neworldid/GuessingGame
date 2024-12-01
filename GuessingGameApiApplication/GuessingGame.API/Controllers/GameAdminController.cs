@@ -9,6 +9,12 @@ namespace GuessingGame.API.Controllers;
 [Route("[controller]")]
 public class GameAdminController(IGameAttemptRepository attemptRepository, IGameSessionRepository sessionRepository) : ControllerBase
 {
+	/// <summary>Retrieves all game sessions.</summary>
+	/// <returns>
+	/// An <see cref="IActionResult"/> containing the list of all game sessions if successful; otherwise, a <see cref="BadRequestResult"/>.
+	/// </returns>
+	/// <response code="200">Returns the list of all game sessions.</response>
+	/// <response code="400">If an error occurs while retrieving the game sessions.</response>
 	[HttpGet("GetAllSessions")]
 	public async Task<IActionResult> GetAllSessions()
 	{
@@ -17,12 +23,21 @@ public class GameAdminController(IGameAttemptRepository attemptRepository, IGame
 			var results = await sessionRepository.GetAllGameSessions();
 			return Ok(results);
 		}
-		catch (Exception e)
+		catch
 		{
 			return BadRequest();
 		}
 	}
 	
+	/// <summary>
+	/// Retrieves all attempts for a specific game session.
+	/// </summary>
+	/// <param name="gameSessionId">The unique identifier of the game session.</param>
+	/// <returns>
+	/// An <see cref="IActionResult"/> containing the list of attempts for the specified game session if successful; otherwise, a <see cref="BadRequestResult"/>.
+	/// </returns>
+	/// <response code="200">Returns the list of attempts for the specified game session.</response>
+	/// <response code="400">If an error occurs while retrieving the attempts.</response>
 	[HttpGet("GetGameSessionAttempts/{gameSessionId:Guid}")]
 	public async Task<IActionResult> GetGameSessionAttempts(Guid gameSessionId)
 	{
@@ -37,6 +52,15 @@ public class GameAdminController(IGameAttemptRepository attemptRepository, IGame
 		}
 	}
 	
+	/// <summary>
+	/// Deletes the data for a specific game session.
+	/// </summary>
+	/// <param name="gameSessionId">The unique identifier of the game session.</param>
+	/// <returns>
+	/// An <see cref="IActionResult"/> indicating the result of the delete operation.
+	/// </returns>
+	/// <response code="200">The game session data was successfully deleted.</response>
+	/// <response code="400">Failed to delete the game session data.</response>
 	[HttpDelete("DeleteGameSessionData/{gameSessionId:Guid}")]
 	public async Task<IActionResult> DeleteGameSessionData(Guid gameSessionId)
 	{

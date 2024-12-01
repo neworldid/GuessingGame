@@ -1,4 +1,4 @@
-# Guessing Game Project
+## Guessing Game Project
 The goal of the game is to guess the number chosen by the program. You have 8 attempts. After each attempt, the program will provide you with small hints. For more details about the rules and functionality, you can explore the game itself.
 
 1. To download the game, run the following command in your terminal at the desired location on your PC:

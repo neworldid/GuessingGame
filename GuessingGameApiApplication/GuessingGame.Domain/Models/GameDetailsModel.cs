@@ -2,6 +2,8 @@
 
 public class GameDetailsModel
 {
+	public Guid SessionId { get; set; }
+	
 	public string PlayerName { get; set; } = string.Empty;
 	
 	public string SecretNumber { get; set; } = string.Empty;
